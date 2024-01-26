@@ -140,6 +140,12 @@ Klinefelters - klinefelters@etown.edu
 
 JCulk - culkj@etown.edu
 
+StonerJ25 - stonerj@etown.edu
+
+JoshSchmitt35 - schmittj@etown.edu
+
+David - conderodriguezj@etown.edu
+
 
 
 Project Link: [https://github.com/klinefelters/Senior-Project](https://github.com/klinefelters/Senior-Project)
