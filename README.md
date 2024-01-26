@@ -137,6 +137,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Contact
 
 Klinefelters - klinefelters@etown.edu
+
 JCulk - culkj@etown.edu
 
 
