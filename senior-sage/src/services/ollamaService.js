@@ -1,34 +1,42 @@
-import axios from "axios";
-
 const API_URL = "http://127.0.0.1:11434";
 
 export default class OllamaService {
-	static async generateResponse(
-		model,
-		prompt,
-		// images = [],
-		// format = "json",
-		// options = {},
-		// system = "",
-		// template = "",
-		// context = "",
-		stream = false
-		// raw = false,
-		// keep_alive = "5m"
-	) {
-		const { data } = await axios.post(API_URL + "/api/generate", {
-			model,
-			prompt,
-			// images,
-			// format,
-			// options,
-			// system,
-			// template,
-			// context,
-			stream,
-			// raw,
-			// keep_alive,
+	static async generateResponse(model, prompt) {
+		const stream = false;
+		const response = await fetch(API_URL + "/api/generate", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				model,
+				prompt,
+				stream,
+			}),
 		});
+		const data = await response.json();
 		return data;
+	}
+
+	static streamResponse(model, prompt) {
+		const stream = true;
+		return fetch(API_URL + "/api/generate", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				model,
+				prompt,
+				stream,
+			}),
+		});
+	}
+
+	static async streamChat(model, messages) {
+		return fetch(API_URL + "/api/chat", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				model,
+				messages,
+			}),
+		});
 	}
 }

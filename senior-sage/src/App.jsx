@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, UnorderedList, ListItem, Input, Button, VStack } from '@chakra-ui/react';
+import { Box, UnorderedList, ListItem, Input, Button, VStack, Flex, Center, Heading } from '@chakra-ui/react';
 import OllamaService from './services/ollamaService';
 
 function App() {
@@ -10,33 +10,50 @@ function App() {
     setInput(event.target.value);
   };
 
-  const handleFormSubmit = async (event) => {
-    let tmp = input;
-    setInput('');
+const handleFormSubmit = async (event) => {
     event.preventDefault();
-    setMessages([...messages, { text: tmp, sender: 'user' }]);
-    try{
-      const response = await OllamaService.generateResponse('tinyllama', tmp);
-      setMessages([...messages, { text: tmp, sender: 'user' }, { text: response.response, sender: 'bot' }]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    const userMessage = { role: 'user', content: input };
+    setInput('');
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages)
 
+    const responseStream = await OllamaService.streamChat('tinyllama', newMessages);
+    const reader = responseStream.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+    setMessages([...newMessages, { role: 'assistant', content: '' }]);
+
+
+    reader.read().then(function processText({ done, value }) {
+        if (done) return;
+        const responsePart = decoder.decode(value);
+        const responseJson = JSON.parse(responsePart);
+        setMessages((prevMessages) => {
+            const lastMessageIndex = prevMessages.length - 1;
+            const lastMessage = prevMessages[lastMessageIndex];
+            const updatedLastMessage = { ...lastMessage, content: lastMessage.content + responseJson.message.content };
+            const updatedMessages = [...prevMessages];
+            updatedMessages[lastMessageIndex] = updatedLastMessage;
+            return updatedMessages;
+        });
+        return reader.read().then(processText);
+    });
+};
   return (
-    <VStack spacing={4}>
-      <UnorderedList>
-        {messages.map((message, index) => (
-          <ListItem key={index}>
-            <strong>{message.sender}:</strong> {message.text}
-          </ListItem>
-        ))}
-      </UnorderedList>
-      <Box as="form" onSubmit={handleFormSubmit}>
-        <Input type="text" value={input} onChange={handleInputChange} />
-        <Button type="submit">Send</Button>
-      </Box>
-    </VStack>
+
+    <Center flexDirection="column">
+      <Heading as="h1" size="xl" m="1em">Senior Sage</Heading>
+      <VStack w="66vw" m="3em" alignContent="left" spacing={2} >
+      {messages.map((message, index) => (
+        <Box w="66vw" key={index} border="1px solid #4d4d4d" p="1em">
+          <strong>{message.role}:</strong> {message.content}
+        </Box>
+      ))}
+        <Flex as="form" onSubmit={handleFormSubmit}>
+          <Input type="text" w="55vw" value={input} onChange={handleInputChange} />
+          <Button type="submit" w="10vw" ml="1vw">Send</Button>
+        </Flex>
+      </VStack>
+    </Center>
   );
 }
 
