@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Box, UnorderedList, ListItem, Input, Button, VStack, Flex, Center, Heading } from '@chakra-ui/react';
+import { Box, Input, Button, VStack, Flex, Center, Heading } from '@chakra-ui/react';
 import OllamaService from './services/ollamaService';
 
 function App() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([{role: 'system', content:''}]);
   const [input, setInput] = useState('');
 
   const handleInputChange = (event) => {
@@ -44,9 +44,11 @@ const handleFormSubmit = async (event) => {
       <Heading as="h1" size="xl" m="1em">Senior Sage</Heading>
       <VStack w="66vw" m="3em" alignContent="left" spacing={2} >
       {messages.map((message, index) => (
-        <Box w="66vw" key={index} border="1px solid #4d4d4d" p="1em">
-          <strong>{message.role}:</strong> {message.content}
-        </Box>
+        message.role !== 'system' ? (
+          <Box w="66vw" key={index} border="1px solid #4d4d4d" p="1em">
+            <strong>{message.role}:</strong> {message.content}
+          </Box>
+        ) : null
       ))}
         <Flex as="form" onSubmit={handleFormSubmit}>
           <Input type="text" w="55vw" value={input} onChange={handleInputChange} />
