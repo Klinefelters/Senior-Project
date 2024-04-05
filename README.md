@@ -79,11 +79,6 @@ Add in a your tech stack here!
 
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
-
-* [Node](https://nodejs.org/en/)
-* [Rust](https://www.rust-lang.org/)
-
 ### Installation
 
 1. Clone Repository
@@ -98,6 +93,11 @@ To get a local copy up and running follow these simple example steps.
 
 <!-- Development Setup -->
  ## Development Setup
+### Prerequisites
+
+* [Node](https://nodejs.org/en/)
+* [Rust](https://www.rust-lang.org/)
+
 1. Clone the repo:
     ```bash
     git clone https://github.com/klinefelters/Senior-Project
