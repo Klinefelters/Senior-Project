@@ -106,6 +106,12 @@ Add required pre-reqs like python or npm.
     cd senior-sage
     npm i
     ```
+3. Install [Ollama](https://ollama.com/)
+
+4. Run the project:
+    ```bash
+    npm run tauri dev
+    ```
 
  <p align="right">(<a href="#readme-top">back to top</a>)</p> 
 
