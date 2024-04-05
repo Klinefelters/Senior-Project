@@ -96,7 +96,7 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 * [Node](https://nodejs.org/en/)
-* [Rust](https://www.rust-lang.org/)
+* [Rust]([https://www.rust-lang.org/](https://tauri.app/v1/guides/getting-started/prerequisites/))
 
 1. Clone the repo:
     ```bash
