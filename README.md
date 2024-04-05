@@ -101,6 +101,11 @@ Add required pre-reqs like python or npm.
     ```bash
     git clone https://github.com/klinefelters/Senior-Project
     ```
+2. Install the project:
+    ```bash
+    cd senior-sage
+    npm i
+    ```
 
  <p align="right">(<a href="#readme-top">back to top</a>)</p> 
 
