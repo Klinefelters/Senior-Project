@@ -149,7 +149,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Klinefelters - klinefelters@etown.edu
 
-JCulk - culkj@etown.edu
+JCulk - culkinj@etown.edu
 
 
 
