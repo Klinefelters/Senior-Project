@@ -111,7 +111,7 @@ Add required pre-reqs like python or npm.
 4. Run the project:
     ```bash
     npm run tauri dev
-    '''
+    ```
 
  <p align="right">(<a href="#readme-top">back to top</a>)</p> 
 
