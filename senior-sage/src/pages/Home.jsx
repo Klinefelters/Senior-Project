@@ -6,9 +6,10 @@ export default function Home () {
         { path: "/llm", image: "Chat.jpg" },
         { path: "/llm", image: "Chat.jpg" },
         { path: "/llm", image: "Chat.jpg" },
+        { path: "/llm", image: "Chat.jpg" },
     ];
     return (
-  <SimpleGrid minChildWidth="100px" spacing="20px" >
+  <SimpleGrid minChildWidth="20vw" spacing="20px" >
     {apps.map((app, index) => (
       <Link key={index} as={RouterLink} to={app.path}>
         <Image bg="rgba(0,0,0,.25)" borderRadius="25px" border="1px solid white" w="100%" src={app.image}/>
