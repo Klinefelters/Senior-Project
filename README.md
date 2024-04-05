@@ -81,7 +81,8 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-Add required pre-reqs like python or npm.
+* [Node](https://nodejs.org/en/)
+* [Rust](https://www.rust-lang.org/)
 
 ### Installation
 
