@@ -6,8 +6,6 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -26,8 +24,6 @@
     <a href="https://github.com/klinefelters/Senior-Project/issues">Request Feature</a>
   </p>
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -53,18 +49,13 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
+
 <!-- <img src="images/Screenshot.png" alt="screenshot" width="960" height="540"> -->
 
-
-
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
@@ -72,9 +63,8 @@ Add in a your tech stack here!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 To get a local copy up and running follow these simple example steps.
@@ -86,39 +76,43 @@ To get a local copy up and running follow these simple example steps.
    git clone https://github.com/Klinefelters/Senior-Project
    ```
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- Development Setup -->
- ## Development Setup
+
+## Development Setup
+
 ### Prerequisites
 
-* [Node](https://nodejs.org/en/)
-* [Rust](https://tauri.app/v1/guides/getting-started/prerequisites/)
+- [Node](https://nodejs.org/en/)
+- [Rust](https://tauri.app/v1/guides/getting-started/prerequisites/)
 
 1. Clone the repo:
-    ```bash
-    git clone https://github.com/klinefelters/Senior-Project
-    ```
+   ```bash
+   git clone https://github.com/klinefelters/Senior-Project
+   ```
 2. Install the project:
-    ```bash
-    cd senior-sage
-    npm i
-    ```
+   ```bash
+   cd senior-sage
+   npm i
+   ```
 3. Install [Ollama](https://ollama.com/)
 
-4. Run the project:
-    ```bash
-    npm run tauri dev
-    ```
+4. Pull and test the model in the terminal:
 
- <p align="right">(<a href="#readme-top">back to top</a>)</p> 
+   ```bash
+   ollama run tinyllama
+   ```
 
+5. Run the project:
+   ```bash
+   npm run tauri dev
+   ```
 
+ <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -134,41 +128,34 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTACT -->
+
 ## Contact
 
 Klinefelters - klinefelters@etown.edu
 
 JCulk - culkinj@etown.edu
 
-
-
 Project Link: [https://github.com/klinefelters/Senior-Project](https://github.com/klinefelters/Senior-Project)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- ACKNOWLEDGMENTS -->
 <!-- ## Acknowledgments -->
 
 <!-- <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/klinefelters/Senior-Project.svg?style=for-the-badge
 [contributors-url]: https://github.com/klinefelters/Senior-Project/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/klinefelters/Senior-Project.svg?style=for-the-badge
