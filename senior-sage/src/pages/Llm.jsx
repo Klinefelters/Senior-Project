@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Box, Input, Button, VStack, Flex, Center, Heading } from '@chakra-ui/react';
 import OllamaService from '../services/ollamaService';
 
+import MicrophoneButton from '../components/MicrophoneButton';
+
 export default function Llm() {
   const [messages, setMessages] = useState([{role: 'system', content:''}]);
   const [input, setInput] = useState('');
@@ -51,7 +53,8 @@ const handleFormSubmit = async (event) => {
         ) : null
       ))}
         <Flex as="form" onSubmit={handleFormSubmit}>
-          <Input type="text" w="55vw" value={input} onChange={handleInputChange} />
+          <MicrophoneButton setText={setInput} />
+          <Input type="text" w="50vw" ml="1vw" value={input} onChange={handleInputChange} />
           <Button type="submit" w="10vw" ml="1vw">Send</Button>
         </Flex>
       </VStack>
