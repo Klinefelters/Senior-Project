@@ -144,6 +144,8 @@ Klinefelters - klinefelters@etown.edu
 
 JCulk - culkinj@etown.edu
 
+JStoner -Stonerj@etown.edu
+
 Project Link: [https://github.com/klinefelters/Senior-Project](https://github.com/klinefelters/Senior-Project)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
