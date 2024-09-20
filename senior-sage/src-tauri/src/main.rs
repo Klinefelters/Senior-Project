@@ -7,3 +7,29 @@ fn main() {
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
+
+#[cfg(test)]
+mod tests {
+    use vosk::{Model, Recognizer};
+
+    #[test]
+    fn test_vosk_recognition() {
+        // Normally you would not want to hardcode the audio samples
+        let samples = vec![100, -2, 700, 30, 4, 5];
+        let model_path = "./model"; // Replace with the actual path to your model
+
+        let model = Model::new(model_path).expect("Failed to create model");
+        let mut recognizer = Recognizer::new(&model, 16000.0).expect("Failed to create recognizer");
+
+        recognizer.set_max_alternatives(10);
+        recognizer.set_words(true);
+        recognizer.set_partial_words(true);
+
+        for sample in samples.chunks(100) {
+            recognizer.accept_waveform(sample);
+            println!("{:#?}", recognizer.partial_result());
+        }
+
+        println!("{:#?}", recognizer.final_result().multiple().unwrap());
+    }
+}
