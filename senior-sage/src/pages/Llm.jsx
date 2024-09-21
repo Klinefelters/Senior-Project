@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Input, Button, VStack, Flex, Center, Heading } from '@chakra-ui/react';
 import OllamaService from '../services/ollamaService';
+import SpeechSynthesisService from '../services/speechSynthesisService';
 
 import MicrophoneButton from '../components/MicrophoneButton';
 
@@ -24,9 +25,13 @@ const handleFormSubmit = async (event) => {
     const decoder = new TextDecoder('utf-8');
     setMessages([...newMessages, { role: 'assistant', content: '' }]);
 
+    let fullResponse = '';
 
     reader.read().then(function processText({ done, value }) {
-        if (done) return;
+        if (done) {
+          SpeechSynthesisService.speak(fullResponse)
+          return;
+        }
         const responsePart = decoder.decode(value);
         const responseJson = JSON.parse(responsePart);
         setMessages((prevMessages) => {
@@ -37,6 +42,7 @@ const handleFormSubmit = async (event) => {
             updatedMessages[lastMessageIndex] = updatedLastMessage;
             return updatedMessages;
         });
+        fullResponse += responseJson.message.content;
         return reader.read().then(processText);
     });
 };
