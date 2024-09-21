@@ -33,7 +33,6 @@ export default function MicrophoneButton({ setText }) {
             setReady(true);
             return recognizer;
         });
-        console.log("Model loaded");
     };
 
     const toggleMicrophone = async () => {
