@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
 import { IconButton } from '@chakra-ui/react';
 import { FaMicrophone } from "react-icons/fa";
-import { createModel, KaldiRecognizer, Model } from "vosk-browser";
+import { createModel } from "vosk-browser";
 
 export default function MicrophoneButton({ setText }) {
-    const [utterances, setUtterances] = useState([]);
-    const [partial, setPartial] = useState("");
     const [recognizer, setRecognizer] = useState(null);
-    const [loadedModel, setLoadedModel] = useState(null);
     const [loading, setLoading] = useState(false);
     const [ready, setReady] = useState(false);
     const [isListening, setIsListening] = useState(false);
@@ -19,18 +16,15 @@ export default function MicrophoneButton({ setText }) {
         setLoading(true);
 
         const model = await createModel("/models/" + path);
-        setLoadedModel({ model, path });
 
         const recognizer = new model.KaldiRecognizer(16000);
         recognizer.setWords(true);
         recognizer.on("result", (message) => {
             const result = message.result;
-            setUtterances((utt) => [...utt, result]);
             setText((utt) => [...utt, result]);
         });
 
         recognizer.on("partialresult", (message) => {
-            setPartial(message.result.partial);
             setText(message.result.partial);
         });
 
