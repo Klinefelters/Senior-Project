@@ -59,7 +59,10 @@ export default function MicrophoneButton({ setText }) {
                 },
             });
 
-            const audioCtx = new AudioContext();
+            const audioCtx = new AudioContext(); 
+
+            // The following code is marked as deprecated in favor of AudioWorkletNode
+            // it still works in most browsers, but should be replaced in the future
             const recognizerNode = audioCtx.createScriptProcessor(4096, 1, 1);
             recognizerNode.onaudioprocess = (event) => {
                 try {
