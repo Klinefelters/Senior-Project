@@ -13,6 +13,7 @@ import Header from './components/Header';
 // Page Imports
 import Home from './pages/Home';
 import Llm from './pages/Llm';
+import WizardLlm from './pages/WizardLlm';
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/llm" element={<Llm/>} />
+          <Route path="/wizardllm" element={<WizardLlm/>} />
         </Routes>
       </Flex>
     </Flex>

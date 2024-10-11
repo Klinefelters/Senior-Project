@@ -3,7 +3,7 @@ import { IconButton } from '@chakra-ui/react';
 import { FaMicrophone } from "react-icons/fa";
 import { createModel } from "vosk-browser";
 
-export default function MicrophoneButton({ setText }) {
+export default function MicrophoneButton({ setText, setAvatarState=null }) {
     const [recognizer, setRecognizer] = useState(null);
     const [loading, setLoading] = useState(false);
     const [ready, setReady] = useState(false);
@@ -39,6 +39,9 @@ export default function MicrophoneButton({ setText }) {
         if (!ready) return;
 
         if (isListening) {
+            if (setAvatarState){
+                setAvatarState("base");
+            }
             // Stop the microphone stream
             if (audioContext) {
                 audioContext.close();
@@ -48,6 +51,9 @@ export default function MicrophoneButton({ setText }) {
             }
             setIsListening(false);
         } else {
+            if (setAvatarState){
+                setAvatarState("listening");
+            }
             // Start the microphone stream
             const stream = await navigator.mediaDevices.getUserMedia({
                 video: false,
@@ -89,7 +95,7 @@ export default function MicrophoneButton({ setText }) {
     return (
         <IconButton
             icon={<FaMicrophone />}
-            h={size}
+            // h={size}
             w={size}
             onClick={toggleMicrophone}
             isLoading={loading}
