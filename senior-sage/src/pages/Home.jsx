@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 export default function Home () {
     const apps = [
         { path: "/llm", image: "Chat.jpg" },
-        { path: "/llm", image: "Chat.jpg" },
+        { path: "/wizardllm", image: "avatars/wizard/Base.png" },
         { path: "/llm", image: "Chat.jpg" },
         { path: "/llm", image: "Chat.jpg" },
     ];
