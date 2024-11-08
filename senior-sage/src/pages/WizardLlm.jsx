@@ -2,52 +2,25 @@ import { useState } from "react";
 import { Box, Input, Button, VStack, Flex, Center, Heading } from '@chakra-ui/react';
 import Avatar from "../components/Avatar";
 import MicrophoneButton from "../components/MicrophoneButton";
-import OllamaService from '../services/ollamaService';
-import SpeechSynthesisService from '../services/speechSynthesisService';
+import { handleChat } from '../services/chatService';
 
 export default function WizardLlm() {
     const [state, setState] = useState("base");
-    const [messages, setMessages] = useState([{role: 'system', content:''}]);
-  const [input, setInput] = useState('');
+    const [messages, setMessages] = useState([{ role: 'system', content: '' }]);
+    const [input, setInput] = useState('');
 
-  const handleInputChange = (event) => {
-    setInput(event.target.value);
-  };
+    const handleInputChange = (event) => {
+        setInput(event.target.value);
+    };
 
-  const handleFormSubmit = async (event) => {
-      event.preventDefault();
-      const userMessage = { role: 'user', content: input };
-      setInput('');
-      const newMessages = [...messages, userMessage];
-      setMessages(newMessages)
-
-      const responseStream = await OllamaService.streamChat('tinyllama', newMessages);
-      const reader = responseStream.body.getReader();
-      const decoder = new TextDecoder('utf-8');
-      setMessages([...newMessages, { role: 'assistant', content: '' }]);
-
-      let fullResponse = '';
-
-      reader.read().then(function processText({ done, value }) {
-          if (done) {
-            SpeechSynthesisService.speak(fullResponse, setState)
-            return;
-          }
-          setState("thinking");
-          const responsePart = decoder.decode(value);
-          const responseJson = JSON.parse(responsePart);
-          setMessages((prevMessages) => {
-              const lastMessageIndex = prevMessages.length - 1;
-              const lastMessage = prevMessages[lastMessageIndex];
-              const updatedLastMessage = { ...lastMessage, content: lastMessage.content + responseJson.message.content };
-              const updatedMessages = [...prevMessages];
-              updatedMessages[lastMessageIndex] = updatedLastMessage;
-              return updatedMessages;
-          });
-          fullResponse += responseJson.message.content;
-          return reader.read().then(processText);
-      });
-  };
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        const userMessage = { role: 'user', content: input };
+        const newMessages = [...messages, userMessage];
+        setMessages(newMessages);
+        setInput('');
+        await handleChat(newMessages, setMessages, setState);
+    };
 
     return (
         <Center flexDirection="column">
