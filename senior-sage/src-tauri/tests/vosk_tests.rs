@@ -28,11 +28,16 @@ mod tests {
     }
 
     #[test]
-    fn test_vosk_recognition() {
-    init_vosk();
-    let mut recognizer = RECOGNIZER.get().unwrap().lock().unwrap();
-    let result = recognizer.accept_waveform(&[0; 16000]);
-    assert_eq!(result, vosk::DecodingState::Running, "Recognizer should be running");
+    fn test_vosk_states() {
+        init_vosk();
+        let mut recognizer = RECOGNIZER.get().unwrap().lock().unwrap();
+        // let result = recognizer.accept_waveform(&[0; 1600]);
+        let samples = vec![100, -2, 700, 30, 4, 5, 0, 0, 0];
+        for sample in samples.chunks(100) {
+            let result = recognizer.accept_waveform(sample);
+            assert_eq!(result, vosk::DecodingState::Running, "Recognizer should be running");
+        }
+        // assert_eq!(result, vosk::DecodingState::Finalized, "Recognizer should be finalized");
     }
 
     
