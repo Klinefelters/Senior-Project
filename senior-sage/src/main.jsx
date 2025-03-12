@@ -33,11 +33,11 @@ const theme = extendTheme({
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ChakraProvider theme={theme}>
       <Router>
         <App />
       </Router>
     </ChakraProvider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )
