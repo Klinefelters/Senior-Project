@@ -2,21 +2,21 @@ import React, { useState } from 'react';
 import { Box, Input, Button, VStack, Flex, Center, Heading } from '@chakra-ui/react';
 import { handleChat } from '../services/chatService';
 import MicrophoneButton from '../components/MicrophoneButton';
-import { invoke } from '@tauri-apps/api/tauri'
-import { useEffect } from 'react';
+import {listen} from '@tauri-apps/api/event'
 
 export default function Llm() {
-  useEffect(() => {
-    invoke('listen_and_transcribe', {}).then((message) =>
-      console.log(message)
-    )
-  }, [])
+  
+  
   const [messages, setMessages] = useState([{ role: 'system', content: '' }]);
   const [input, setInput] = useState('');
 
   const handleInputChange = (event) => {
       setInput(event.target.value);
   };
+  listen('transcription', (event) => {
+    setInput(event.payload)
+  })
+  
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();

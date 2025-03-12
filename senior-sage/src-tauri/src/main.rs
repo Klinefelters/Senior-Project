@@ -1,5 +1,7 @@
 use pv_recorder::PvRecorderBuilder;
 use tauri::Manager;
+use std::thread::sleep;
+use std::time::Duration;
 mod vosk;
 
 #[tauri::command]
@@ -18,20 +20,21 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
 
         if let Some(result) = vosk::recognize(&frame, true) {
             if result.is_empty() {
+                if !transcription.is_empty() {
+                    break;
+                }
                 continue;
             }
-            println!("{}", result);
+            if result == transcription {
+                continue;
+            }
             app_handle
                 .emit_all("transcription", result.clone())
                 .expect("failed to emit transcription");
             transcription = result;
-            if transcription.contains("stop") {
-                transcription.replace("stop", "");
-                break;
-            }
         }
 
-        // sleep(Duration::from_millis(30));
+        sleep(Duration::from_millis(30));
     }
     if recorder.is_recording() {
         recorder.stop().unwrap();
