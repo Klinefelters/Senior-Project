@@ -7,7 +7,11 @@ import {listen} from '@tauri-apps/api/event'
 export default function Llm() {
   
   
+<<<<<<< HEAD
   const [messages, setMessages] = useState([{ role: 'system', content: 'You are an interviewer named Amy. Try to keep the conversation going' }]);
+=======
+  const [messages, setMessages] = useState([{ role: 'system', content: '' }]);
+>>>>>>> fe99dcf (STT is Integrated using voskrs and pvrecorder)
   const [input, setInput] = useState('');
 
   const handleInputChange = (event) => {

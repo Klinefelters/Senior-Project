@@ -2,6 +2,7 @@
 use tauri::Manager;
 use std::thread::sleep;
 use std::time::Duration;
+<<<<<<< HEAD
 use std::process::Command;
 
 use cpal::{
@@ -9,6 +10,8 @@ use cpal::{
     ChannelCount, SampleFormat,
 };
 use dasp::{sample::ToSample, Sample};
+=======
+>>>>>>> fe99dcf (STT is Integrated using voskrs and pvrecorder)
 mod vosk;
 
 #[tauri::command]
@@ -28,6 +31,7 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
     };
     println!("Starting transcription");
 
+<<<<<<< HEAD
     let stream = match config.sample_format() {
         SampleFormat::I8 => audio_input_device.build_input_stream(
             &config.into(),
@@ -54,6 +58,33 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
             None,
         ),
         sample_format => panic!("Unsupported sample format '{sample_format}'"),
+=======
+    
+    loop {
+        if !recorder.is_recording() {
+            recorder.start().unwrap();
+        }
+
+        let frame = recorder.read().unwrap();
+
+        if let Some(result) = vosk::recognize(&frame, true) {
+            if result.is_empty() {
+                if !transcription.is_empty() {
+                    break;
+                }
+                continue;
+            }
+            if result == transcription {
+                continue;
+            }
+            app_handle
+                .emit_all("transcription", result.clone())
+                .expect("failed to emit transcription");
+            transcription = result;
+        }
+
+        sleep(Duration::from_millis(30));
+>>>>>>> fe99dcf (STT is Integrated using voskrs and pvrecorder)
     }
     .expect("Could not build stream");
 

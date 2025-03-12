@@ -24,7 +24,11 @@ export default function MicrophoneButton({ setText, setAvatarState=null }) {
             }
             setIsListening(true);
             setReady(false);
+<<<<<<< HEAD
             await invoke('listen_and_transcribe', {}).then((message) => console.log(message));
+=======
+            await invoke('listen_and_transcribe', {}).then((message) => setText(message))
+>>>>>>> fe99dcf (STT is Integrated using voskrs and pvrecorder)
             setReady(true);
         }
     };
