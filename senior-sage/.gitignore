@@ -1,6 +1,8 @@
 # Piper Voice Models
 **/piper/**.onnx**
 
+**/libvosk.so 
+
 # Logs
 logs
 *.log
