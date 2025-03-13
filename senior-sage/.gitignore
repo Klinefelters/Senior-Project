@@ -1,3 +1,6 @@
+# Piper Voice Models
+**/piper/**.onnx**
+
 # Logs
 logs
 *.log
