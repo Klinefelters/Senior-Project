@@ -1,5 +1,4 @@
 fn main() {
-    // println!("cargo:rustc-link-search=libvosk");
-    println!("cargo:rustc-link-lib=libvosk");
+    println!("cargo:rustc-link-search=libvosk");
     tauri_build::build()
 }
