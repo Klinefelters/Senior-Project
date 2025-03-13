@@ -1,8 +1,11 @@
 # Piper Voice Models
 **/piper/**.onnx**
 
+<<<<<<< HEAD
 **/libvosk.so 
 
+=======
+>>>>>>> 13602e1 (Add piper voices to the ignore)
 # Logs
 logs
 *.log
