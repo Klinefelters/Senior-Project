@@ -1,3 +1,6 @@
+# Piper Models
+*/piper/**.onnx**
+
 # Logs
 logs
 *.log
