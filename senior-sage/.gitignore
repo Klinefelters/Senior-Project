@@ -2,10 +2,15 @@
 **/piper/**.onnx**
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 **/libvosk.so 
 
 =======
 >>>>>>> 13602e1 (Add piper voices to the ignore)
+=======
+**/libvosk.so 
+
+>>>>>>> 19ab73f (Moved .dll files and .lib files + added libvosk.so to gitignore)
 # Logs
 logs
 *.log
