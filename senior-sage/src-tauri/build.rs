@@ -3,7 +3,11 @@ fn main() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
+=======
+    #[cfg(all(target_os = "linux", target_arch = "arm"))]
+>>>>>>> beca9b5 (Added a conditional compile for linux)
     {
         let lib_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
             .join("/home/orangepi/Senior-Project/senior-sage/src-tauri/libvosk");
@@ -11,6 +15,7 @@ fn main() {
     }
 
     tauri_build::build();
+<<<<<<< HEAD
 }
 =======
     // println!("cargo:rustc-link-search=libvosk");
@@ -27,3 +32,6 @@ fn main() {
     tauri_build::build()
 }
 >>>>>>> 4471958 (Small Changes for Linux)
+=======
+}
+>>>>>>> beca9b5 (Added a conditional compile for linux)
