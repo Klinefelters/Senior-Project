@@ -4,10 +4,14 @@ fn main() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
 =======
     #[cfg(all(target_os = "linux", target_arch = "arm"))]
 >>>>>>> beca9b5 (Added a conditional compile for linux)
+=======
+    #[cfg(all(target_os = "linux", target_arch = "arm"))]
+>>>>>>> 973d039 (Added a conditional compile for linux)
     {
         let lib_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
             .join("/home/orangepi/Senior-Project/senior-sage/src-tauri/libvosk");
@@ -15,6 +19,7 @@ fn main() {
     }
 
     tauri_build::build();
+<<<<<<< HEAD
 <<<<<<< HEAD
 }
 =======
@@ -35,3 +40,6 @@ fn main() {
 =======
 }
 >>>>>>> beca9b5 (Added a conditional compile for linux)
+=======
+}
+>>>>>>> 973d039 (Added a conditional compile for linux)
