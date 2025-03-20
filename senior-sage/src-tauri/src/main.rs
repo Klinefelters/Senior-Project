@@ -25,7 +25,6 @@ use dasp::{sample::ToSample, Sample};
 mod vosk;
 
 #[tauri::command]
-<<<<<<< HEAD
 async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
     let audio_input_device = cpal::default_host()
         .default_input_device()
@@ -42,10 +41,6 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
     };
     println!("Starting transcription");
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a226e0f (changed to cpal, working kinda)
     let stream = match config.sample_format() {
         SampleFormat::I8 => audio_input_device.build_input_stream(
             &config.into(),
@@ -72,36 +67,6 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
             None,
         ),
         sample_format => panic!("Unsupported sample format '{sample_format}'"),
-<<<<<<< HEAD
-=======
-    
-    loop {
-        if !recorder.is_recording() {
-            recorder.start().unwrap();
-        }
-
-        let frame = recorder.read().unwrap();
-
-        if let Some(result) = vosk::recognize(&frame, true) {
-            if result.is_empty() {
-                if !transcription.is_empty() {
-                    break;
-                }
-                continue;
-            }
-            if result == transcription {
-                continue;
-            }
-            app_handle
-                .emit_all("transcription", result.clone())
-                .expect("failed to emit transcription");
-            transcription = result;
-        }
-
-        sleep(Duration::from_millis(30));
->>>>>>> fe99dcf (STT is Integrated using voskrs and pvrecorder)
-=======
->>>>>>> a226e0f (changed to cpal, working kinda)
     }
     .expect("Could not build stream");
 
@@ -110,12 +75,9 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
     drop(stream);
     let result = "Transcription stopped".to_string();
     result
-<<<<<<< HEAD
 }
 
 #[tauri::command]
-=======
->>>>>>> 9c16a01 (Added Piper live transctiption)
 async fn speak_text(input_text: String) -> String {
     let command = format!("echo '{}' |   ./piper/piper --model ./piper/en_US-ryan-high.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", input_text);
     println!("Command: {}", command); // Print the command for debugging
@@ -146,6 +108,7 @@ fn main() {
     vosk::init_vosk(config.sample_rate().0 as f32);
     tauri::Builder::default()
       // This is where you pass in your commands
+      .invoke_handler(tauri::generate_handler![listen_and_transcribe, speak_text])
       .invoke_handler(tauri::generate_handler![listen_and_transcribe, speak_text])
       .run(tauri::generate_context!())
       .expect("failed to run app");
