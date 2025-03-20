@@ -5,6 +5,7 @@ use std::time::Duration;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 use std::process::Command;
 <<<<<<< HEAD
 =======
@@ -17,6 +18,9 @@ use ragit::{Index, LoadMode, QueryTurn};
 <<<<<<< HEAD
 use std::io::Write;
 >>>>>>> 95640d2 (added rag)
+=======
+use std::process::Command;
+>>>>>>> 3f0ce3a (Added Piper live transctiption)
 
 =======
 use once_cell::sync::Lazy;
@@ -62,56 +66,18 @@ async fn ragtalk(input: String) -> Result<String, String> {
 
 
 #[tauri::command]
-async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
-    let audio_input_device = cpal::default_host()
-        .default_input_device()
-        .expect("No input device connected");
-
-    let config = audio_input_device
-        .default_input_config()
-        .expect("Failed to load default input config");
-    let channels = config.channels();
-
-
-    let err_fn = move |err| {
-        eprintln!("an error occurred on stream: {}", err);
-    };
-    println!("Starting transcription");
-
-    let stream = match config.sample_format() {
-        SampleFormat::I8 => audio_input_device.build_input_stream(
-            &config.into(),
-            move |data: &[i8], _| recognize(app_handle.clone(), data, channels),
-            err_fn,
-            None,
-        ),
-        SampleFormat::I16 => audio_input_device.build_input_stream(
-            &config.into(),
-            move |data: &[i16], _| recognize(app_handle.clone(), data, channels),
-            err_fn,
-            None,
-        ),
-        SampleFormat::I32 => audio_input_device.build_input_stream(
-            &config.into(),
-            move |data: &[i32], _| recognize(app_handle.clone(), data, channels),
-            err_fn,
-            None,
-        ),
-        SampleFormat::F32 => audio_input_device.build_input_stream(
-            &config.into(),
-            move |data: &[f32], _| recognize(app_handle.clone(), data, channels),
-            err_fn,
-            None,
-        ),
-        sample_format => panic!("Unsupported sample format '{sample_format}'"),
-    }
-    .expect("Could not build stream");
-
-    stream.play().expect("Could not play stream");
-    sleep(Duration::from_secs(5));
-    drop(stream);
-    let result = "Transcription stopped".to_string();
-    result
+async fn speak_text(input_text: String) -> String {
+    let command = format!("echo '{}' |   ./piper/piper --model ./piper/en_US-ryan-high.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", input_text);
+    println!("Command: {}", command); // Print the command for debugging
+    let output1 = Command::new("sh")
+        .arg("-c")
+        .arg(command)
+        .output()
+        .expect("Failed to execute command");
+    println!("{:?}", &output1); // Use {:?} for debug formatting
+    println!("Command Output:\n{}", String::from_utf8_lossy(&output1.stdout));  
+    println!("Done");
+    return "done".to_string();
 }
 
 #[tauri::command]
