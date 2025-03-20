@@ -4,9 +4,13 @@ use std::thread::sleep;
 use std::time::Duration;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 use std::process::Command;
 =======
 >>>>>>> a226e0f (changed to cpal, working kinda)
+=======
+use std::process::Command;
+>>>>>>> 9c16a01 (Added Piper live transctiption)
 
 use cpal::{
     traits::{DeviceTrait, HostTrait, StreamTrait},
@@ -21,6 +25,7 @@ use dasp::{sample::ToSample, Sample};
 mod vosk;
 
 #[tauri::command]
+<<<<<<< HEAD
 async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
     let audio_input_device = cpal::default_host()
         .default_input_device()
@@ -109,6 +114,8 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
 }
 
 #[tauri::command]
+=======
+>>>>>>> 9c16a01 (Added Piper live transctiption)
 async fn speak_text(input_text: String) -> String {
     let command = format!("echo '{}' |   ./piper/piper --model ./piper/en_US-ryan-high.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", input_text);
     println!("Command: {}", command); // Print the command for debugging
@@ -121,8 +128,11 @@ async fn speak_text(input_text: String) -> String {
     println!("Command Output:\n{}", String::from_utf8_lossy(&output1.stdout));  
     println!("Done");
     return "done".to_string();
+<<<<<<< HEAD
 =======
 >>>>>>> a226e0f (changed to cpal, working kinda)
+=======
+>>>>>>> 9c16a01 (Added Piper live transctiption)
 }
 
 fn main() {
