@@ -24,7 +24,7 @@ export default function MicrophoneButton({ setText, setAvatarState=null }) {
             }
             setIsListening(true);
             setReady(false);
-            await invoke('listen_and_transcribe', {}).then((message) => setText(message))
+            await invoke('listen_and_transcribe', {}).then((message) => console.log(message));
             setReady(true);
         }
     };
