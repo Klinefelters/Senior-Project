@@ -3,15 +3,21 @@ use tauri::Manager;
 use std::thread::sleep;
 use std::time::Duration;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use std::process::Command;
+=======
+>>>>>>> a226e0f (changed to cpal, working kinda)
 
 use cpal::{
     traits::{DeviceTrait, HostTrait, StreamTrait},
     ChannelCount, SampleFormat,
 };
 use dasp::{sample::ToSample, Sample};
+<<<<<<< HEAD
 =======
 >>>>>>> fe99dcf (STT is Integrated using voskrs and pvrecorder)
+=======
+>>>>>>> a226e0f (changed to cpal, working kinda)
 mod vosk;
 
 #[tauri::command]
@@ -32,6 +38,9 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
     println!("Starting transcription");
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a226e0f (changed to cpal, working kinda)
     let stream = match config.sample_format() {
         SampleFormat::I8 => audio_input_device.build_input_stream(
             &config.into(),
@@ -58,6 +67,7 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
             None,
         ),
         sample_format => panic!("Unsupported sample format '{sample_format}'"),
+<<<<<<< HEAD
 =======
     
     loop {
@@ -85,6 +95,8 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
 
         sleep(Duration::from_millis(30));
 >>>>>>> fe99dcf (STT is Integrated using voskrs and pvrecorder)
+=======
+>>>>>>> a226e0f (changed to cpal, working kinda)
     }
     .expect("Could not build stream");
 
@@ -93,6 +105,7 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
     drop(stream);
     let result = "Transcription stopped".to_string();
     result
+<<<<<<< HEAD
 }
 
 #[tauri::command]
@@ -108,6 +121,8 @@ async fn speak_text(input_text: String) -> String {
     println!("Command Output:\n{}", String::from_utf8_lossy(&output1.stdout));  
     println!("Done");
     return "done".to_string();
+=======
+>>>>>>> a226e0f (changed to cpal, working kinda)
 }
 
 fn main() {
