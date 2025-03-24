@@ -21,7 +21,10 @@ vosk = "0.2.0"
 cpal = "0.15.3"
 dasp = "0.11.0"
 ragit = "0.3.4"
+<<<<<<< HEAD
 syn = "2.0.55"
+=======
+>>>>>>> efc05a9 (added rag)
 
 [features]
 # This feature is used for production builds or when a dev server is not specified, DO NOT REMOVE!!

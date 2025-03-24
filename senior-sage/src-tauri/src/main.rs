@@ -8,6 +8,7 @@ use std::time::Duration;
 <<<<<<< HEAD
 use std::process::Command;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> a226e0f (changed to cpal, working kinda)
 =======
@@ -21,6 +22,10 @@ use std::io::Write;
 =======
 use std::process::Command;
 >>>>>>> 3f0ce3a (Added Piper live transctiption)
+=======
+use ragit::{Index, LoadMode, QueryTurn};
+use std::io::Write;
+>>>>>>> efc05a9 (added rag)
 
 =======
 use once_cell::sync::Lazy;
@@ -62,6 +67,29 @@ async fn ragtalk(input: String) -> Result<String, String> {
     Ok(response.response)
 }
 
+
+
+
+#[tauri::command]
+async fn rag_talk(input: String) -> Result<String, Box<dyn std::error::Error>> {
+    let index = Index::load("./".to_string(), LoadMode::QuickCheck)
+        .map_err(|e| format!("Index load error: {:?}", e))?;
+    let mut history = vec![];
+
+    let response = index.query(&input, history.clone())
+        .await
+        .map_err(|e| format!("Query error: {:?}", e))?;
+
+    println!("{}", response.response);
+
+    if response.response.trim() == "/q" {
+        return Ok(response.response.clone()); // Return a clone of the response
+    }
+
+    history.push(QueryTurn::new(input, response.clone())); // Clone the response for history
+
+    Ok(response.response) // Return a clone of the response
+}
 
 
 

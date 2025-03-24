@@ -15,6 +15,7 @@ export async function handleChat(messages, setMessages, setState) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     let fullResponse = await OllamaService.generateResponse('phi3', messages);
 
     console.log(fullResponse.message);
@@ -41,6 +42,10 @@ export async function handleChat(messages, setMessages, setState) {
 >>>>>>> 080360e (moved .ragit, rag working sorta)
 =======
     let fullResponse = await OllamaService.generateResponse('tinyllama', lastMessage.content);
+=======
+ //   let fullResponse = await OllamaService.generateResponse('tinyllama', lastMessage.content);
+    let fullResponse = await ragService.ragTalk(lastMessage.content);
+>>>>>>> efc05a9 (added rag)
 
     console.log(fullResponse);
 
