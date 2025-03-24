@@ -1,7 +1,7 @@
 // src/services/chatService.js
 import OllamaService from './ollamaService';
 import SpeechSynthesisService from './speechSynthesisService';
-
+import ragService from './ragService';
 export async function handleChat(messages, setMessages, setState) {
     if (setState) {
         setState('thinking');
@@ -30,8 +30,12 @@ export async function handleChat(messages, setMessages, setState) {
 
     console.log(fullResponse);
 
-    setMessages([...messages, { role: 'assistant', content: fullResponse.response }]);
+    setMessages([...messages, { role: 'assistant', content: fullResponse }]);
 
+<<<<<<< HEAD
     SpeechSynthesisService.speak(fullResponse.response, setState)
 >>>>>>> 56eca48 (testing)
+=======
+    SpeechSynthesisService.speak(fullResponse, setState)
+>>>>>>> 080360e (moved .ragit, rag working sorta)
 }

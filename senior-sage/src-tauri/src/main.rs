@@ -14,9 +14,13 @@ use std::process::Command;
 >>>>>>> 9c16a01 (Added Piper live transctiption)
 =======
 use ragit::{Index, LoadMode, QueryTurn};
+<<<<<<< HEAD
 use std::io::Write;
 >>>>>>> 95640d2 (added rag)
 
+=======
+use once_cell::sync::Lazy;
+>>>>>>> 080360e (moved .ragit, rag working sorta)
 use cpal::{
     traits::{DeviceTrait, HostTrait, StreamTrait},
     ChannelCount, SampleFormat,
@@ -29,26 +33,31 @@ use dasp::{sample::ToSample, Sample};
 >>>>>>> a226e0f (changed to cpal, working kinda)
 mod vosk;
 
-#[tauri::command]
-async fn rag_talk(input: String) -> Result<String, Box<dyn std::error::Error>> {
-    let index = Index::load("./".to_string(), LoadMode::QuickCheck)
-        .map_err(|e| format!("Index load error: {:?}", e))?;
-    let mut history = vec![];
+static INDEX: Lazy<Index> = Lazy::new(|| {
+    Index::load("./".to_string(), LoadMode::QuickCheck)
+        .expect("Failed to load index")
+});
 
-    let response = index.query(&input, history.clone())
+static mut HISTORY: Vec<QueryTurn> = Vec::new();
+
+
+#[tauri::command]
+async fn ragtalk(input: String) -> Result<String, String> {
+    let response = INDEX.query(&input, unsafe { HISTORY.to_vec() })
         .await
         .map_err(|e| format!("Query error: {:?}", e))?;
 
-    println!("{}", response.response);
-
     if response.response.trim() == "/q" {
-        return Ok(response.response.clone()); // Return a clone of the response
+        return Ok(response.response.clone());
     }
 
-    history.push(QueryTurn::new(input, response.clone())); // Clone the response for history
+    unsafe {
+        HISTORY.push(QueryTurn::new(input, response.clone()));
+    }
 
-    Ok(response.response) // Return a clone of the response
+    Ok(response.response)
 }
+
 
 
 
@@ -136,8 +145,12 @@ fn main() {
     vosk::init_vosk(config.sample_rate().0 as f32);
     tauri::Builder::default()
       // This is where you pass in your commands
+<<<<<<< HEAD
       .invoke_handler(tauri::generate_handler![listen_and_transcribe, speak_text])
       .invoke_handler(tauri::generate_handler![listen_and_transcribe, speak_text])
+=======
+      .invoke_handler(tauri::generate_handler![ragtalk, listen_and_transcribe, speak_text])
+>>>>>>> 080360e (moved .ragit, rag working sorta)
       .run(tauri::generate_context!())
       .expect("failed to run app");
 }
