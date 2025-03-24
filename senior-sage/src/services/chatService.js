@@ -13,6 +13,7 @@ export async function handleChat(messages, setMessages, setState) {
     const lastMessage = messages[lastMessageIndex];
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     let fullResponse = await OllamaService.generateResponse('phi3', messages);
 
     console.log(fullResponse.message);
@@ -22,6 +23,10 @@ export async function handleChat(messages, setMessages, setState) {
     SpeechSynthesisService.speak(fullResponse.message.content, setState)
 =======
     let fullResponse = await OllamaService.generateResponse('tinyllama', lastMessage.content);
+=======
+ //   let fullResponse = await OllamaService.generateResponse('tinyllama', lastMessage.content);
+    let fullResponse = await ragService.ragTalk(lastMessage.content);
+>>>>>>> 95640d2 (added rag)
 
     console.log(fullResponse);
 
