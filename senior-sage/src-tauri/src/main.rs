@@ -3,6 +3,8 @@ use tauri::Manager;
 use std::thread::sleep;
 use std::time::Duration;
 use std::process::Command;
+use ragit::{Index, LoadMode, QueryTurn};
+use std::io::Write;
 
 use cpal::{
     traits::{DeviceTrait, HostTrait, StreamTrait},
@@ -10,6 +12,29 @@ use cpal::{
 };
 use dasp::{sample::ToSample, Sample};
 mod vosk;
+
+#[tauri::command]
+async fn rag_talk(input: String) -> Result<String, Box<dyn std::error::Error>> {
+    let index = Index::load("./".to_string(), LoadMode::QuickCheck)
+        .map_err(|e| format!("Index load error: {:?}", e))?;
+    let mut history = vec![];
+
+    let response = index.query(&input, history.clone())
+        .await
+        .map_err(|e| format!("Query error: {:?}", e))?;
+
+    println!("{}", response.response);
+
+    if response.response.trim() == "/q" {
+        return Ok(response.response.clone()); // Return a clone of the response
+    }
+
+    history.push(QueryTurn::new(input, response.clone())); // Clone the response for history
+
+    Ok(response.response) // Return a clone of the response
+}
+
+
 
 #[tauri::command]
 async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {

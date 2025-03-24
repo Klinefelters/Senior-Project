@@ -12,7 +12,8 @@ export async function handleChat(messages, setMessages, setState) {
     const lastMessageIndex = messages.length - 1;
     const lastMessage = messages[lastMessageIndex];
 
-    let fullResponse = await OllamaService.generateResponse('tinyllama', lastMessage.content);
+ //   let fullResponse = await OllamaService.generateResponse('tinyllama', lastMessage.content);
+    let fullResponse = await ragService.ragTalk(lastMessage.content);
 
     console.log(fullResponse);
 
