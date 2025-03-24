@@ -7,7 +7,7 @@ import {listen} from '@tauri-apps/api/event'
 export default function Llm() {
   
   
-  const [messages, setMessages] = useState([{ role: 'system', content: '' }]);
+  const [messages, setMessages] = useState([{ role: 'system', content: 'You are an interviewer named Amy. Do the best you can to keep the conversation going.' }]);
   const [input, setInput] = useState('');
 
   const handleInputChange = (event) => {

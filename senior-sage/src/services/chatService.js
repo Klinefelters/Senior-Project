@@ -7,16 +7,29 @@ export async function handleChat(messages, setMessages, setState) {
         setState('thinking');
     }
 
-    
-    
-    const lastMessageIndex = messages.length - 1;
-    const lastMessage = messages[lastMessageIndex];
+    const responseStream = await OllamaService.streamChat('phi3', messages);
+    const reader = responseStream.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+    setMessages([...messages, { role: 'assistant', content: '' }]);
 
-    let fullResponse = await OllamaService.generateResponse('tinyllama', lastMessage.content);
+    let fullResponse = '';
 
-    console.log(fullResponse);
-
-    setMessages([...messages, { role: 'assistant', content: fullResponse.response }]);
-
-    SpeechSynthesisService.speak(fullResponse.response, setState)
+    reader.read().then(function processText({ done, value }) {
+        if (done) {
+            SpeechSynthesisService.speak(fullResponse, setState);
+            return;
+        }
+        const responsePart = decoder.decode(value);
+        const responseJson = JSON.parse(responsePart);
+        setMessages((prevMessages) => {
+            const lastMessageIndex = prevMessages.length - 1;
+            const lastMessage = prevMessages[lastMessageIndex];
+            const updatedLastMessage = { ...lastMessage, content: lastMessage.content + responseJson.message.content };
+            const updatedMessages = [...prevMessages];
+            updatedMessages[lastMessageIndex] = updatedLastMessage;
+            return updatedMessages;
+        });
+        fullResponse += responseJson.message.content;
+        return reader.read().then(processText);
+    });
 }
