@@ -3,7 +3,7 @@ export default class ragService {
 
 static async ragTalk(inputText) {
     try {
-        const response = await invoke("rag_talk", { input: inputText });
+        const response = await invoke("ragtalk", { input: inputText });
         console.log("Response from Rust:", response);
         return response;
     } catch (error) {
