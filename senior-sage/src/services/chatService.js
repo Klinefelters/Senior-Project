@@ -49,8 +49,12 @@ export async function handleChat(messages, setMessages, setState) {
 
     console.log(fullResponse);
 
-    setMessages([...messages, { role: 'assistant', content: fullResponse.response }]);
+    setMessages([...messages, { role: 'assistant', content: fullResponse }]);
 
+<<<<<<< HEAD
     SpeechSynthesisService.speak(fullResponse.response, setState)
 >>>>>>> 1c427a3 (testing)
+=======
+    SpeechSynthesisService.speak(fullResponse, setState)
+>>>>>>> 818d89e (moved .ragit, rag working sorta)
 }
