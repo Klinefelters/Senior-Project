@@ -12,11 +12,11 @@ export async function handleChat(messages, setMessages, setState) {
     const lastMessageIndex = messages.length - 1;
     const lastMessage = messages[lastMessageIndex];
 
-    let fullResponse = await OllamaService.generateResponse('tinyllama', lastMessage.content);
+    let fullResponse = await OllamaService.generateResponse('phi3', messages);
 
-    console.log(fullResponse);
+    console.log(fullResponse.message);
 
-    setMessages([...messages, { role: 'assistant', content: fullResponse.response }]);
+    setMessages([...messages, fullResponse.message ]);
 
-    SpeechSynthesisService.speak(fullResponse.response, setState)
+    SpeechSynthesisService.speak(fullResponse.message.content, setState)
 }
