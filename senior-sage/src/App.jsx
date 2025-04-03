@@ -4,8 +4,6 @@ import './App.css'
 //Library Imports
 import { Routes, Route} from "react-router-dom";
 import { Flex } from '@chakra-ui/react';
-import { listen } from '@tauri-apps/api/event';
-import { useEffect } from 'react';
 
 // Component Imports
 import Header from './components/Header';
@@ -17,11 +15,6 @@ import WizardLlm from './pages/WizardLlm';
 
 
 export default function App() {
-  useEffect(() => {
-    listen('spacebar', () => {
-      console.log('spacebar')
-    })
-  }, [])
   return (
     <Flex flexDirection="column" minHeight="100vh">
       <Header />

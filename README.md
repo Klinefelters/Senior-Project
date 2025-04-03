@@ -109,6 +109,25 @@ To get a local copy up and running follow these simple example steps.
    npm run tauri dev
    ```
 
+   <!-- Vosk -->
+
+## Vosk
+
+To ensure Vosk runs successfully, you'll need the appropriate Vosk files for your operating system. Visit this [website](https://github.com/alphacep/vosk-api/releases/tag/v0.3.45) to download the correct files.
+
+### Windows 
+- Download the vosk-win64-0.3.45.zip file.
+
+- Extract the contents of the ZIP file.
+
+- Place all extracted files into the src-tauri folder.
+### Linux
+- Download the Linux ZIP file that matches your system's architecture (e.g., aarch64, armv7, RISC, etc.).
+
+- Extract the contents of the ZIP file.
+
+- Place all extracted files into the libvosk folder within the src-tauri directory.
+
  <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->

@@ -1,18 +1,13 @@
+import { invoke } from '@tauri-apps/api/tauri';
 export default class SpeechSynthesisService {
-	static async speak(text, setAvatarState=null, voice = 0, speed = 1, volume = 1, pitch = 1) {
-		let speech = window.speechSynthesis;
-		let utterance = new SpeechSynthesisUtterance(text);
-		utterance.voice = speechSynthesis.getVoices()[voice];
-		utterance.rate = speed;
-		utterance.pitch = pitch;
-		utterance.volume = volume;
-		speech.cancel();
-		speech.speak(utterance);
+	static async speak(input, setAvatarState=null) {
+		
 		if (setAvatarState) {
 			setAvatarState("speaking");
-			utterance.onend = () => {
-				setAvatarState("base");
-			};
+			await invoke('speak_text', { inputText: input }).then(() => setAvatarState("base"))
+		}else{
+			await invoke('speak_text', {inputText: input}).then(() => console.log("done"))
 		}
 	}
 }
+

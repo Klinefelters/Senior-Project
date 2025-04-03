@@ -2,23 +2,30 @@ import React, { useState } from 'react';
 import { Box, Input, Button, VStack, Flex, Center, Heading } from '@chakra-ui/react';
 import { handleChat } from '../services/chatService';
 import MicrophoneButton from '../components/MicrophoneButton';
+import {listen} from '@tauri-apps/api/event'
 
 export default function Llm() {
-    const [messages, setMessages] = useState([{ role: 'system', content: '' }]);
-    const [input, setInput] = useState('');
+  
+  
+  const [messages, setMessages] = useState([{ role: 'system', content: 'You are an interviewer named Amy. Try to keep the conversation going' }]);
+  const [input, setInput] = useState('');
 
-    const handleInputChange = (event) => {
-        setInput(event.target.value);
-    };
+  const handleInputChange = (event) => {
+      setInput(event.target.value);
+  };
+  listen('transcription', (event) => {
+    setInput(event.payload)
+  })
+  
 
-    const handleFormSubmit = async (event) => {
-      event.preventDefault();
-      const userMessage = { role: 'user', content: input };
-      const newMessages = [...messages, userMessage];
-      setMessages(newMessages);
-      setInput('');
-      await handleChat(newMessages, setMessages);
-    };
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    const userMessage = { role: 'user', content: input };
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
+    setInput('');
+    await handleChat(newMessages, setMessages);
+  };
   return (
 
     <Center flexDirection="column">

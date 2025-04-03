@@ -5,10 +5,10 @@ use vosk::{DecodingState, Model, Recognizer};
 use std::sync::Mutex;
 static MODEL: OnceCell<Model> = OnceCell::new();
 static RECOGNIZER: OnceCell<Mutex<Recognizer>> = OnceCell::new();
-pub fn init_vosk() {
+pub fn init_vosk(sample_rate: f32) {
     if !RECOGNIZER.get().is_none() {return;} // already initialized
     let model = Model::new("./model").unwrap();
-    let mut recognizer = Recognizer::new(&model, 16000.0).unwrap();
+    let mut recognizer = Recognizer::new(&model, sample_rate).unwrap();
     recognizer.set_max_alternatives(10);
     recognizer.set_words(true);
     recognizer.set_partial_words(true);
