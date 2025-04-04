@@ -1,12 +1,16 @@
 # Piper Voice Models
 **/piper/**.onnx**
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
 **/piper
 >>>>>>> 4573dd3 (changes to dependencies)
+=======
+**/piper
+>>>>>>> df7df33 (changes to dependencies)
 **/libvosk.so 
 
 =======
