@@ -4373,6 +4373,7 @@ dependencies = [
  "ragit",
  "serde",
  "serde_json",
+ "syn 2.0.100",
  "tauri",
  "tauri-build",
  "vosk",
