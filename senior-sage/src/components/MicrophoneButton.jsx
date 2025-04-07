@@ -27,6 +27,7 @@ export default function MicrophoneButton({ setText, setAvatarState=null }) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             await invoke('listen_and_transcribe', {}).then((message) => console.log(message));
 =======
             await invoke('listen_and_transcribe', {}).then((message) => setText(message))
@@ -37,6 +38,9 @@ export default function MicrophoneButton({ setText, setAvatarState=null }) {
 =======
             await invoke('listen_and_transcribe', {}).then((message) => console.log(message));
 >>>>>>> cf32b5f (Replace text setting with console logging in MicrophoneButton component)
+=======
+            await invoke('listen_and_transcribe', {}).then((message) => console.log(message));
+>>>>>>> 6e62f4e14f88e1afa466b169f8fadd6cc369d405
             setReady(true);
         }
     };

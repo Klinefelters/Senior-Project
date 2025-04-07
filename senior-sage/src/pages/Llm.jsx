@@ -8,10 +8,14 @@ export default function Llm() {
   
   
 <<<<<<< HEAD
+<<<<<<< HEAD
   const [messages, setMessages] = useState([{ role: 'system', content: 'You are an interviewer named Amy. Try to keep the conversation going' }]);
 =======
   const [messages, setMessages] = useState([{ role: 'system', content: '' }]);
 >>>>>>> fe99dcf (STT is Integrated using voskrs and pvrecorder)
+=======
+  const [messages, setMessages] = useState([{ role: 'system', content: '' }]);
+>>>>>>> 6e62f4e14f88e1afa466b169f8fadd6cc369d405
   const [input, setInput] = useState('');
 
   const handleInputChange = (event) => {

@@ -6,6 +6,7 @@ use std::time::Duration;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 use std::process::Command;
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -34,16 +35,24 @@ use once_cell::sync::Lazy;
 =======
 use once_cell::sync::Lazy;
 >>>>>>> 818d89e (moved .ragit, rag working sorta)
+=======
+use std::process::Command;
+use ragit::{Index, LoadMode, QueryTurn};
+use once_cell::sync::Lazy;
+>>>>>>> 6e62f4e14f88e1afa466b169f8fadd6cc369d405
 use cpal::{
     traits::{DeviceTrait, HostTrait, StreamTrait},
     ChannelCount, SampleFormat,
 };
 use dasp::{sample::ToSample, Sample};
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> fe99dcf (STT is Integrated using voskrs and pvrecorder)
 =======
 >>>>>>> a226e0f (changed to cpal, working kinda)
+=======
+>>>>>>> 6e62f4e14f88e1afa466b169f8fadd6cc369d405
 mod vosk;
 
 static INDEX: Lazy<Index> = Lazy::new(|| {
@@ -51,6 +60,9 @@ static INDEX: Lazy<Index> = Lazy::new(|| {
         .expect("Failed to load index")
 });
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6e62f4e14f88e1afa466b169f8fadd6cc369d405
 
 static mut HISTORY: Vec<QueryTurn> = Vec::new();
 
@@ -76,6 +88,7 @@ async fn ragtalk(input: String) -> Result<String, String> {
 
 
 #[tauri::command]
+<<<<<<< HEAD
 async fn rag_talk(input: String) -> Result<String, Box<dyn std::error::Error>> {
     let index = Index::load("./".to_string(), LoadMode::QuickCheck)
         .map_err(|e| format!("Index load error: {:?}", e))?;
@@ -107,6 +120,8 @@ async fn ragtalk(input: String) -> Result<String, String> {
 
 
 #[tauri::command]
+=======
+>>>>>>> 6e62f4e14f88e1afa466b169f8fadd6cc369d405
 async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
     let audio_input_device = cpal::default_host()
         .default_input_device()
@@ -174,6 +189,7 @@ async fn speak_text(input_text: String) -> String {
     return "done".to_string();
 }
 
+<<<<<<< HEAD
 #[tauri::command]
 async fn speak_text(input_text: String) -> String {
     let command = format!("echo '{}' |   ./piper/piper --model ./piper/en_US-ryan-high.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", input_text);
@@ -194,6 +210,8 @@ async fn speak_text(input_text: String) -> String {
 >>>>>>> 9c16a01 (Added Piper live transctiption)
 }
 
+=======
+>>>>>>> 6e62f4e14f88e1afa466b169f8fadd6cc369d405
 fn main() {
     let audio_input_device = cpal::default_host()
         .default_input_device()
@@ -208,6 +226,7 @@ fn main() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       .invoke_handler(tauri::generate_handler![listen_and_transcribe, speak_text])
       .invoke_handler(tauri::generate_handler![listen_and_transcribe, speak_text])
 =======
@@ -219,6 +238,9 @@ fn main() {
 =======
       .invoke_handler(tauri::generate_handler![ragtalk, listen_and_transcribe, speak_text])
 >>>>>>> 818d89e (moved .ragit, rag working sorta)
+=======
+      .invoke_handler(tauri::generate_handler![ragtalk, listen_and_transcribe, speak_text])
+>>>>>>> 6e62f4e14f88e1afa466b169f8fadd6cc369d405
       .run(tauri::generate_context!())
       .expect("failed to run app");
 }

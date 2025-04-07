@@ -23,12 +23,16 @@ dasp = "0.11.0"
 ragit = "0.3.4"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 syn = "2.0.55"
 =======
 >>>>>>> efc05a9 (added rag)
 =======
 syn = "2.0.55"
 >>>>>>> df7df33 (changes to dependencies)
+=======
+syn = "2.0.55"
+>>>>>>> 6e62f4e14f88e1afa466b169f8fadd6cc369d405
 
 [features]
 # This feature is used for production builds or when a dev server is not specified, DO NOT REMOVE!!

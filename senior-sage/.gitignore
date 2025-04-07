@@ -2,6 +2,7 @@
 **/piper/**.onnx**
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -19,6 +20,11 @@
 **/libvosk.so 
 
 >>>>>>> 19ab73f (Moved .dll files and .lib files + added libvosk.so to gitignore)
+=======
+**/piper
+**/libvosk.so 
+
+>>>>>>> 6e62f4e14f88e1afa466b169f8fadd6cc369d405
 # Logs
 logs
 *.log
