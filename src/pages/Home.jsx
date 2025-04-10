@@ -5,7 +5,7 @@ export default function Home ({headerDisabled, setHeaderDisabled}) {
     const apps = [
         { path: "/amy", image: "/avatars/amy/base.png" },
         { path: "/ryan", image: "/avatars/ryan/base.png" },
-        { path: "/david", image: "/avatars/ryan/base.png" },
+        { path: "/william", image: "/avatars/william/base.png" },
     ];
     return (
   <SimpleGrid minChildWidth="20vw" spacing="75px" pt="5vh">

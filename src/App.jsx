@@ -12,7 +12,7 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import Ryan from './pages/Ryan';
 import Amy from './pages/Amy';
-import David from './pages/David';
+import William from './pages/William';
 
 // Hook Imports
 import { useState } from 'react';
@@ -27,7 +27,7 @@ export default function App() {
           <Route path="/" element={<Home headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
           <Route path="/amy" element={<Amy headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
           <Route path="/ryan" element={<Ryan headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
-          <Route path="/david" element={<David headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
+          <Route path="/william" element={<William headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
         </Routes>
       </Flex>
     </Flex>

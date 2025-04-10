@@ -11,7 +11,7 @@ import Thinking from '../components/states/Thinking';
 import Avatar from '../components/Avatar';
 
 
-export default function David({headerDisabled, setHeaderDisabled}) {
+export default function William({headerDisabled, setHeaderDisabled}) {
 
   const [state, setState] = useState('thinking');
   // State can be 'thinking', 'speaking', 'listening', or 'base'
@@ -28,7 +28,7 @@ export default function David({headerDisabled, setHeaderDisabled}) {
   useEffect(() => {
     const fetchIntroduction = async () => {
       setHeaderDisabled(true);
-      const introduction = { role: 'system', content: "You are Ryan, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going. Introduce yourself to the resident and ask for their name. Keep it short." };
+      const introduction = { role: 'system', content: "You are William, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going. Introduce yourself to the resident and ask for their name. Keep it short." };
       const newMessages = ([introduction]);
       await handleChat(newMessages, setMessages, setState, voice);
       setHeaderDisabled(false);
