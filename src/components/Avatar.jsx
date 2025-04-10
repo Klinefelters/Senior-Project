@@ -21,6 +21,6 @@ export default function Avatar({ base, listening, speaking, thinking, state }) {
 
     
     return (
-        <Image src={currentImage} w="20vw" h="20vw"/>
+        <Image src={currentImage} w="30vw" h="30vw"/>
     )
 }
