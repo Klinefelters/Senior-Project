@@ -11,7 +11,7 @@ import Thinking from '../components/states/Thinking';
 import Avatar from '../components/Avatar';
 
 
-export default function Llm({headerDisabled, setHeaderDisabled}) {
+export default function Amy({headerDisabled, setHeaderDisabled}) {
 
   const [state, setState] = useState('thinking');
   // State can be 'thinking', 'speaking', 'listening', or 'base'
@@ -57,7 +57,7 @@ export default function Llm({headerDisabled, setHeaderDisabled}) {
       <AnimatePresence mode="wait">
         <Flex>
           <motion.div
-              key="thinking"
+              key="avatar"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}

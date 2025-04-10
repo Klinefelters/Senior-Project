@@ -3,9 +3,9 @@ import { Link as RouterLink } from "react-router-dom";
 
 export default function Home ({headerDisabled, setHeaderDisabled}) {
     const apps = [
-        { path: "/llm", image: "Chat.jpg" },
-        { path: "/llm", image: "Chat.jpg" },
-        { path: "/llm", image: "Chat.jpg" },
+        { path: "/amy", image: "/avatars/amy/base.png" },
+        { path: "/amy", image: "/avatars/amy/base.png" },
+        { path: "/amy", image: "/avatars/amy/base.png" },
     ];
     return (
   <SimpleGrid minChildWidth="20vw" spacing="75px" pt="5vh">
