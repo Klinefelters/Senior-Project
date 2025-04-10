@@ -12,7 +12,7 @@ export default class OllamaService {
 				"stream": false,
 				"options": {
 					"temperature": 0,
-					"seed": 101
+					"seed": 11010
 				}
 			}),
 		});

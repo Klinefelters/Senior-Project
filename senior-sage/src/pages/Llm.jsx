@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import { Box, Input, Button, VStack, Flex, Center, Heading } from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import { HStack, Center} from '@chakra-ui/react';
 import { handleChat } from '../services/chatService';
-import MicrophoneButton from '../components/MicrophoneButton';
+import Card  from '../components/cards/Card';
+import InputCard from '../components/cards/InputCard';
 import {listen} from '@tauri-apps/api/event'
+import { motion } from 'framer-motion';
+
 
 export default function Llm() {
   
-  
-  const [messages, setMessages] = useState([{ role: 'system', content: 'You are an interviewer named Amy. Try to keep the conversation going' }]);
+  const [waiting, setWaiting] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [messages, setMessages] = useState([{ role: 'system', content: 'You are Amy, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going.' }]);
   const [input, setInput] = useState('');
 
   const handleInputChange = (event) => {
@@ -19,31 +23,68 @@ export default function Llm() {
   
 
   const handleFormSubmit = async (event) => {
+    setWaiting(false);
+    setLoading(true);
     event.preventDefault();
     const userMessage = { role: 'user', content: input };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput('');
     await handleChat(newMessages, setMessages);
+    setWaiting(true);
+    setLoading(false);
   };
-  return (
 
-    <Center flexDirection="column">
-      <Heading as="h1" size="xl" m="1em">Senior Sage</Heading>
-      <VStack w="66vw" m="3em" alignContent="left" spacing={2} >
-      {messages.map((message, index) => (
-        message.role !== 'system' ? (
-          <Box w="66vw" key={index} border="1px solid #4d4d4d" p="1em">
-            <strong>{message.role}:</strong> {message.content}
-          </Box>
-        ) : null
-      ))}
-        <Flex as="form" onSubmit={handleFormSubmit}>
-          <MicrophoneButton setText={setInput} />
-          <Input type="text" w="50vw" ml="1vw" value={input} onChange={handleInputChange} />
-          <Button type="submit" w="10vw" ml="1vw">Send</Button>
-        </Flex>
-      </VStack>
+  const introduction = useEffect(() => {
+    const fetchIntroduction = async () => {
+      const userMessage = { role: 'system', content: "Introduce yourself to the resident and ask for their name." };
+      const newMessages = [...messages, userMessage];
+      setMessages(newMessages);
+      setInput('');
+      await handleChat(newMessages, setMessages);
+      setLoading(false);
+      setWaiting(true); 
+    };
+    fetchIntroduction();
+    
+  }, []);
+    return (
+      <Center flexDirection="column">
+      <HStack w="85vw" alignContent="left" spacing="2.5vw">
+        {messages
+          .slice(-1 * (waiting ? 1 : 2)) // Show only the last message or last two if no input card
+          .map((message, index) => (
+            message.role === 'assistant' ? (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Card
+                  role={'Amy'}
+                  content={message.content}
+                />
+              </motion.div>
+            ) : null
+          ))}
+        {waiting ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <InputCard
+              onSubmit={handleFormSubmit}
+              setText={setInput}
+              value={input}
+              onChange={handleInputChange}
+            />
+          </motion.div>
+        ) : null}
+      </HStack>
     </Center>
   );
 }
