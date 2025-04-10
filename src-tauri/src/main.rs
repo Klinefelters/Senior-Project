@@ -1,4 +1,3 @@
-
 use tauri::Manager;
 use std::thread::sleep;
 use std::time::Duration;
@@ -9,7 +8,11 @@ use cpal::{
     ChannelCount, SampleFormat,
 };
 use dasp::{sample::ToSample, Sample};
+use dotenv::dotenv;
+use std::env;
+
 mod vosk;
+
 
 #[tauri::command]
 async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
@@ -67,13 +70,21 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
 #[tauri::command]
 async fn speak_text(input_text: String) -> String {
     let sanitized_text = input_text.replace('\n', "").replace('\'', "");
-    // let command = format!("echo '{}' |   ./piper/piper --model ./piper/en_US-ryan-high.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", sanitized_text);
-    
-    let command = format!(
-        "echo '{}' |   piper -m D:/piper/en_US-amy-medium.onnx --output-raw |   ffplay -f s16le -ar 22050 -autoexit -", 
-        sanitized_text
-    );
+
+    let command = if env::var("OPERATING_SYSTEM").unwrap() == "Windows" {
+        format!(
+            "echo '{}' |   piper -m {}/en_US-amy-medium.onnx --output-raw |   ffplay -f s16le -ar 22050 -autoexit -", 
+            sanitized_text, env::var("PATH_TO_PIPER_MODELS").unwrap()
+        )
+    } else {
+        format!(
+            "echo '{}' |   piper -m {}/en_US-amy-medium.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", 
+            sanitized_text, env::var("PATH_TO_PIPER_MODELS").unwrap()
+        )
+    };
+
     println!("Command executed: {}", &command);
+
     let output1 = Command::new("sh")
         .arg("-c")
         .arg(command)
@@ -81,10 +92,20 @@ async fn speak_text(input_text: String) -> String {
         .expect("Failed to execute command");
     
     println!("Output: {}", String::from_utf8_lossy(&output1.stdout));
+
     return "done".to_string();
 }
 
 fn main() {
+    dotenv().ok();
+
+    if env::var("OPERATING_SYSTEM").is_err() {
+        panic!("OPERATING_SYSTEM environment variable is not set. Please set it to be Windows or Linux.");
+    }
+    if env::var("PATH_TO_PIPER_MODELS").is_err() {
+        panic!("PATH_TO_PIPER_MODELS environment variable is not set. Please set it to be the path to the folder containing the piper models.");
+    }
+
     let audio_input_device = cpal::default_host()
         .default_input_device()
         .expect("No input device connected");
