@@ -64,10 +64,7 @@ export default function Llm({headerDisabled, setHeaderDisabled}) {
               transition={{ duration: 0.3 }}
           >
             <Avatar 
-              base="avatars/wizard/Base-transparentbg.png" 
-              listening="avatars/wizard/Listening-transparentbg.png" 
-              speaking="avatars/wizard/Speaking-transparentbg.png" 
-              thinking="avatars/wizard/Thinking-transparentbg.png" 
+              base="avatars/amy/base.png" 
               state={state}
             />
           </motion.div>
