@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Center} from '@chakra-ui/react';
+import { Center, Flex } from '@chakra-ui/react';
 import { handleChat } from '../services/chatService';
 import {listen} from '@tauri-apps/api/event'
 import { AnimatePresence, motion } from 'framer-motion';
@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Speaking from '../components/states/Speaking';
 import Base from '../components/states/Base';
 import Thinking from '../components/states/Thinking';
+import Avatar from '../components/Avatar';
 
 
 export default function Llm({headerDisabled, setHeaderDisabled}) {
@@ -53,41 +54,51 @@ export default function Llm({headerDisabled, setHeaderDisabled}) {
   
   return (
     <Center flexDirection="column" minHeight="50vh">
-      <AnimatePresence mode="wait">
-        {state === 'thinking' && (
-          <motion.div
-            key="thinking"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Thinking />
-          </motion.div>
-        )}
-        {state === 'speaking' && (
-          <motion.div
-            key="speaking"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Speaking role={messages[messages.length - 1].role} content={messages[messages.length - 1].content} />
-          </motion.div>
-        )}
-        {(state === 'base' || state === 'listening') && (
-          <motion.div
-            key="base"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Base onSubmit={handleFormSubmit} setText={setInput} value={input} onChange={handleInputChange} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Flex>
+      <Avatar 
+        base="avatars/wizard/Base-transparentbg.png" 
+        listening="avatars/wizard/Listening-transparentbg.png" 
+        speaking="avatars/wizard/Speaking-transparentbg.png" 
+        thinking="avatars/wizard/Thinking-transparentbg.png" 
+        state={state}
+      />
+      
+        <AnimatePresence mode="wait">
+          {state === 'thinking' && (
+            <motion.div
+              key="thinking"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Thinking />
+            </motion.div>
+          )}
+          {state === 'speaking' && (
+            <motion.div
+              key="speaking"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Speaking role={messages[messages.length - 1].role} content={messages[messages.length - 1].content} />
+            </motion.div>
+          )}
+          {(state === 'base' || state === 'listening') && (
+            <motion.div
+              key="base"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Base onSubmit={handleFormSubmit} setText={setInput} value={input} onChange={handleInputChange} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Flex>
     </Center>
   );
 }
