@@ -68,18 +68,18 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
 }
 
 #[tauri::command]
-async fn speak_text(input_text: String) -> String {
+async fn speak_text(input_text: String, model: String) -> String {
     let sanitized_text = input_text.replace('\n', "").replace('\'', "");
 
     let command = if env::var("OPERATING_SYSTEM").unwrap() == "Windows" {
         format!(
-            "echo '{}' |   piper -m {}/en_US-amy-medium.onnx --output-raw |   ffplay -f s16le -ar 22050 -autoexit -", 
-            sanitized_text, env::var("PATH_TO_PIPER_MODELS").unwrap()
+            "echo '{}' |   piper -m {}/en_US-{}.onnx --output-raw |   ffplay -f s16le -ar 22050 -autoexit -", 
+            sanitized_text, env::var("PATH_TO_PIPER_MODELS").unwrap(), model
         )
     } else {
         format!(
-            "echo '{}' |   piper -m {}/en_US-amy-medium.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", 
-            sanitized_text, env::var("PATH_TO_PIPER_MODELS").unwrap()
+            "echo '{}' |   piper -m {}/en_US-{}.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", 
+            sanitized_text, env::var("PATH_TO_PIPER_MODELS").unwrap(), model
         )
     };
 

@@ -30,7 +30,7 @@ export default function Amy({headerDisabled, setHeaderDisabled}) {
       const introduction = { role: 'system', content: "Introduce yourself to the resident and ask for their name." };
       const prompt = { role: 'system', content: 'You are Amy, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going.' };
       const newMessages = ([introduction, prompt]);
-      await handleChat(newMessages, setMessages, setState);
+      await handleChat(newMessages, setMessages, setState, "amy-medium");
       setHeaderDisabled(false);
     };
     fetchIntroduction();
@@ -43,7 +43,7 @@ export default function Amy({headerDisabled, setHeaderDisabled}) {
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput('');
-    await handleChat(newMessages, setMessages, setState);
+    await handleChat(newMessages, setMessages, setState, "amy-medium");
     setHeaderDisabled(false);
   };
 

@@ -2,7 +2,7 @@
 import OllamaService from './ollamaService';
 import SpeechSynthesisService from './speechSynthesisService';
 
-export async function handleChat(messages, setMessages, setState) {
+export async function handleChat(messages, setMessages, setState, piperModel="amy-medium") {
     if (setState) {
         setState('thinking');
     }
@@ -18,5 +18,5 @@ export async function handleChat(messages, setMessages, setState) {
 
     setMessages([...messages, fullResponse.message ]);
 
-    await SpeechSynthesisService.speak(fullResponse.message.content, setState)
+    await SpeechSynthesisService.speak(fullResponse.message.content, piperModel, setState)
 }
