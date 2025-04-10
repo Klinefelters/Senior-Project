@@ -74,7 +74,7 @@ async fn speak_text(input_text: String) -> String {
         sanitized_text
     );
 
-    let output1 = Command::new("sh")
+    let _output1 = Command::new("sh")
         .arg("-c")
         .arg(command)
         .output()
