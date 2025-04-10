@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 export default function Home ({headerDisabled, setHeaderDisabled}) {
     const apps = [
         { path: "/amy", image: "/avatars/amy/base.png" },
-        { path: "/amy", image: "/avatars/amy/base.png" },
+        { path: "/ryan", image: "/avatars/ryan/base.png" },
         { path: "/amy", image: "/avatars/amy/base.png" },
     ];
     return (

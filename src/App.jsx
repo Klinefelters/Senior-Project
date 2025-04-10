@@ -10,6 +10,7 @@ import Header from './components/Header';
 
 // Page Imports
 import Home from './pages/Home';
+import Ryan from './pages/Ryan';
 import Amy from './pages/Amy';
 
 // Hook Imports
@@ -24,6 +25,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
           <Route path="/amy" element={<Amy headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
+          <Route path="/ryan" element={<Ryan headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
         </Routes>
       </Flex>
     </Flex>
