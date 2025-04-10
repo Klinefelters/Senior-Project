@@ -70,15 +70,17 @@ async fn speak_text(input_text: String) -> String {
     // let command = format!("echo '{}' |   ./piper/piper --model ./piper/en_US-ryan-high.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", sanitized_text);
     
     let command = format!(
-        "echo '{}' |   piper -m D:/en_US-amy-medium.onnx --output-raw |   ffplay -f s16le -ar 22050 -autoexit -", 
+        "echo '{}' |   piper -m D:/piper/en_US-amy-medium.onnx --output-raw |   ffplay -f s16le -ar 22050 -autoexit -", 
         sanitized_text
     );
-
-    let _output1 = Command::new("sh")
+    println!("Command executed: {}", &command);
+    let output1 = Command::new("sh")
         .arg("-c")
         .arg(command)
         .output()
         .expect("Failed to execute command");
+    
+    println!("Output: {}", String::from_utf8_lossy(&output1.stdout));
     return "done".to_string();
 }
 

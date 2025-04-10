@@ -25,23 +25,25 @@ export default function Llm({headerDisabled, setHeaderDisabled}) {
 
   useEffect(() => {
     const fetchIntroduction = async () => {
+      setHeaderDisabled(true);
       const introduction = { role: 'system', content: "Introduce yourself to the resident and ask for their name." };
       const prompt = { role: 'system', content: 'You are Amy, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going.' };
       const newMessages = ([introduction, prompt]);
       await handleChat(newMessages, setMessages, setState);
+      setHeaderDisabled(false);
     };
-    setHeaderDisabled(true);
     fetchIntroduction();
-    setHeaderDisabled(false);
   }, []);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    setHeaderDisabled(true);
     const userMessage = { role: 'user', content: input };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput('');
     await handleChat(newMessages, setMessages, setState);
+    setHeaderDisabled(false);
   };
 
   const handleInputChange = (event) => {
