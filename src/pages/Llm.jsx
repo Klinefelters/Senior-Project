@@ -54,16 +54,23 @@ export default function Llm({headerDisabled, setHeaderDisabled}) {
   
   return (
     <Center flexDirection="column" minHeight="50vh">
-      <Flex>
-      <Avatar 
-        base="avatars/wizard/Base-transparentbg.png" 
-        listening="avatars/wizard/Listening-transparentbg.png" 
-        speaking="avatars/wizard/Speaking-transparentbg.png" 
-        thinking="avatars/wizard/Thinking-transparentbg.png" 
-        state={state}
-      />
-      
-        <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait">
+        <Flex>
+          <motion.div
+              key="thinking"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+          >
+            <Avatar 
+              base="avatars/wizard/Base-transparentbg.png" 
+              listening="avatars/wizard/Listening-transparentbg.png" 
+              speaking="avatars/wizard/Speaking-transparentbg.png" 
+              thinking="avatars/wizard/Thinking-transparentbg.png" 
+              state={state}
+            />
+          </motion.div>
           {state === 'thinking' && (
             <motion.div
               key="thinking"
@@ -97,8 +104,8 @@ export default function Llm({headerDisabled, setHeaderDisabled}) {
               <Base onSubmit={handleFormSubmit} setText={setInput} value={input} onChange={handleInputChange} />
             </motion.div>
           )}
-        </AnimatePresence>
-      </Flex>
+        </Flex>
+      </AnimatePresence>
     </Center>
   );
 }

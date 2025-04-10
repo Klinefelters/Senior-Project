@@ -8,6 +8,7 @@ export default function Speaking({ role, content }) {
             border="1px solid white"
             h="65vh"
             w="100%"
+            maxWidth="70vw"
         >
             <strong>{role}</strong>: {content}
         </Box>
