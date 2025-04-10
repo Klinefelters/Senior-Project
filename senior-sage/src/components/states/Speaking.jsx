@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 
-export default function Card({ role, content }) {
+export default function Speaking({ role, content }) {
     return(
         <Box
             bg="rgba(0,0,0,.25)"

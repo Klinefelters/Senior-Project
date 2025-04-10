@@ -1,7 +1,7 @@
 import { Box, Button, Input } from '@chakra-ui/react';
 import MicrophoneButton from '../MicrophoneButton';
 
-export default function InputCard({ onSubmit, setText, value, onChange }) {
+export default function Base({ onSubmit, setText, value, onChange }) {
     return(
         <Box
             bg="rgba(0,0,0,.25)"
