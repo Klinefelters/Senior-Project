@@ -7,20 +7,34 @@ import {listen} from '@tauri-apps/api/event'
 import { motion } from 'framer-motion';
 
 
-export default function Llm() {
+export default function Llm({headerDisabled, setHeaderDisabled}) {
   
   const [waiting, setWaiting] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [messages, setMessages] = useState([{ role: 'system', content: 'You are Amy, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going.' }]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
-  const handleInputChange = (event) => {
-      setInput(event.target.value);
-  };
+  
   listen('transcription', (event) => {
     setInput(event.payload)
   })
   
+  useEffect(() => {setHeaderDisabled(loading);}, [loading, setHeaderDisabled]);
+
+  useEffect(() => {
+    const fetchIntroduction = async () => {
+      const introduction = { role: 'system', content: "Introduce yourself to the resident and ask for their name." };
+      const prompt = { role: 'system', content: 'You are Amy, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going.' };
+      const newMessages = ([introduction, prompt]);
+      setMessages([newMessages]);
+      await handleChat(newMessages, setMessages);
+      setLoading(false);
+      setWaiting(true); 
+    };
+    setLoading(true);
+    setHeaderDisabled(true);
+    fetchIntroduction();
+  }, []);
 
   const handleFormSubmit = async (event) => {
     setWaiting(false);
@@ -35,31 +49,23 @@ export default function Llm() {
     setLoading(false);
   };
 
-  const introduction = useEffect(() => {
-    const fetchIntroduction = async () => {
-      const userMessage = { role: 'system', content: "Introduce yourself to the resident and ask for their name." };
-      const newMessages = [...messages, userMessage];
-      setMessages(newMessages);
-      setInput('');
-      await handleChat(newMessages, setMessages);
-      setLoading(false);
-      setWaiting(true); 
-    };
-    fetchIntroduction();
-    
-  }, []);
-    return (
-      <Center flexDirection="column" minHeight="50vh">
-      {loading ? (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} // Start with opacity 0 and slide down
-          animate={{ opacity: 1, y: 0 }}  // Fade in and slide to position
-          exit={{ opacity: 0, y: -20 }}   // Fade out and slide up
-          transition={{ duration: 0.3 }}  // Smooth transition
-        >
-          <Spinner size="xl" thickness="4px" speed="0.65s" color="blue.500" />
-        </motion.div>
-      ) : (
+  const handleInputChange = (event) => {
+    setInput(event.target.value);
+  };
+
+  
+  return (
+    <Center flexDirection="column" minHeight="50vh">
+    {loading ? (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }} // Start with opacity 0 and slide down
+        animate={{ opacity: 1, y: 0 }}  // Fade in and slide to position
+        exit={{ opacity: 0, y: -20 }}   // Fade out and slide up
+        transition={{ duration: 0.3 }}  // Smooth transition
+      >
+        <Spinner size="xl" thickness="4px" speed="0.65s" color="blue.500" />
+      </motion.div>
+    ) : (
       <HStack w="80vw" alignContent="left" spacing="2.5vw">
         {messages
           .slice(-1 * (waiting ? 1 : 2)) // Show only the last message or last two if no input card
@@ -77,8 +83,9 @@ export default function Llm() {
                   content={message.content}
                 />
               </motion.div>
-            ) : null
-          ))}
+            ) : null )
+          )
+        }
         {waiting ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

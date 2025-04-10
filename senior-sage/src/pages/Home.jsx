@@ -1,7 +1,7 @@
 import { SimpleGrid, Image, Link } from '@chakra-ui/react';
 import { Link as RouterLink } from "react-router-dom";
 
-export default function Home () {
+export default function Home ({headerDisabled, setHeaderDisabled}) {
     const apps = [
         { path: "/llm", image: "Chat.jpg" },
         { path: "/llm", image: "Chat.jpg" },

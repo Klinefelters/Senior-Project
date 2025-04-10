@@ -12,15 +12,18 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import Llm from './pages/Llm';
 
+import { useState } from 'react';
+
 
 export default function App() {
+  const [headerDisabled, setHeaderDisabled] = useState(false);
   return (
     <Flex flexDirection="column" minHeight="100vh">
-      <Header />
+      <Header disable={headerDisabled}/>
       <Flex flex="1" direction="column" p="70px" pb="40px">
         <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/llm" element={<Llm/>} />
+          <Route path="/" element={<Home headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
+          <Route path="/llm" element={<Llm headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
         </Routes>
       </Flex>
     </Flex>
