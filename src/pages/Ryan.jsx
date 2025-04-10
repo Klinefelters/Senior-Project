@@ -19,6 +19,7 @@ export default function Ryan({headerDisabled, setHeaderDisabled}) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const voice = "ryan-high";
+  
 
   
   listen('transcription', (event) => {
@@ -28,9 +29,8 @@ export default function Ryan({headerDisabled, setHeaderDisabled}) {
   useEffect(() => {
     const fetchIntroduction = async () => {
       setHeaderDisabled(true);
-      const introduction = { role: 'system', content: "Introduce yourself to the resident and ask for their name." };
-      const prompt = { role: 'system', content: 'You are Ryan, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going.' };
-      const newMessages = ([introduction, prompt]);
+      const introduction = { role: 'system', content: "You are Ryan, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going. Introduce yourself to the resident and ask for their name. Keep it short." };
+      const newMessages = ([introduction]);
       await handleChat(newMessages, setMessages, setState, voice);
       setHeaderDisabled(false);
     };

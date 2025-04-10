@@ -11,13 +11,14 @@ import Thinking from '../components/states/Thinking';
 import Avatar from '../components/Avatar';
 
 
-export default function Amy({headerDisabled, setHeaderDisabled}) {
+export default function David({headerDisabled, setHeaderDisabled}) {
 
   const [state, setState] = useState('thinking');
   // State can be 'thinking', 'speaking', 'listening', or 'base'
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const voice = "kusal-medium";
 
   
   listen('transcription', (event) => {
@@ -27,9 +28,9 @@ export default function Amy({headerDisabled, setHeaderDisabled}) {
   useEffect(() => {
     const fetchIntroduction = async () => {
       setHeaderDisabled(true);
-      const introduction = { role: 'system', content: "You are Amy, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going. Introduce yourself to the resident and ask for their name. Keep it short." };
+      const introduction = { role: 'system', content: "You are Ryan, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going. Introduce yourself to the resident and ask for their name. Keep it short." };
       const newMessages = ([introduction]);
-      await handleChat(newMessages, setMessages, setState, "amy-medium");
+      await handleChat(newMessages, setMessages, setState, voice);
       setHeaderDisabled(false);
     };
     fetchIntroduction();
@@ -42,7 +43,7 @@ export default function Amy({headerDisabled, setHeaderDisabled}) {
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput('');
-    await handleChat(newMessages, setMessages, setState, "amy-medium");
+    await handleChat(newMessages, setMessages, setState, voice);
     setHeaderDisabled(false);
   };
 
@@ -63,7 +64,7 @@ export default function Amy({headerDisabled, setHeaderDisabled}) {
               transition={{ duration: 0.3 }}
           >
             <Avatar 
-              base="avatars/amy/base.png" 
+              base="avatars/ryan/base.png" 
               state={state}
             />
           </motion.div>

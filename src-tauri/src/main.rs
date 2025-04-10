@@ -69,7 +69,7 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
 
 #[tauri::command]
 async fn speak_text(input_text: String, model: String) -> String {
-    let sanitized_text = input_text.replace('\n', "").replace('\'', "");
+    let sanitized_text = input_text.replace('\n', " ").replace('\'', "");
 
     let command = if env::var("OPERATING_SYSTEM").unwrap() == "Windows" {
         format!(
