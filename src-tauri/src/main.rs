@@ -66,16 +66,21 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
 
 #[tauri::command]
 async fn speak_text(input_text: String) -> String {
-    let command = format!("echo '{}' |   ./piper/piper --model ./piper/en_US-ryan-high.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", input_text);
-    println!("Command: {}", command); // Print the command for debugging
+    let sanitized_text = input_text.replace('\n', "").replace('\'', "");
+    // let command = format!("echo '{}' |   ./piper/piper --model ./piper/en_US-ryan-high.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", sanitized_text);
+    
+    let command = format!(
+        "echo '{}' |   piper -m D:/piper/en_US-amy-medium.onnx --output-raw |   ffplay -f s16le -ar 22050 -autoexit -", 
+        sanitized_text
+    );
+    println!("Command executed: {}", &command);
     let output1 = Command::new("sh")
         .arg("-c")
         .arg(command)
         .output()
         .expect("Failed to execute command");
-    println!("{:?}", &output1); // Use {:?} for debug formatting
-    println!("Command Output:\n{}", String::from_utf8_lossy(&output1.stdout));  
-    println!("Done");
+    
+    println!("Output: {}", String::from_utf8_lossy(&output1.stdout));
     return "done".to_string();
 }
 

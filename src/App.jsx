@@ -11,18 +11,19 @@ import Header from './components/Header';
 // Page Imports
 import Home from './pages/Home';
 import Llm from './pages/Llm';
-import WizardLlm from './pages/WizardLlm';
+
+import { useState } from 'react';
 
 
 export default function App() {
+  const [headerDisabled, setHeaderDisabled] = useState(false);
   return (
     <Flex flexDirection="column" minHeight="100vh">
-      <Header />
-      <Flex flex="1" direction="column" p="10px" pb="40px">
+      <Header disable={headerDisabled}/>
+      <Flex flex="1" direction="column" p="70px" pb="40px">
         <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/llm" element={<Llm/>} />
-          <Route path="/wizardllm" element={<WizardLlm/>} />
+          <Route path="/" element={<Home headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
+          <Route path="/llm" element={<Llm headerDisabled={headerDisabled} setHeaderDisabled={setHeaderDisabled}/>} />
         </Routes>
       </Flex>
     </Flex>

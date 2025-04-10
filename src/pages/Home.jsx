@@ -1,18 +1,17 @@
 import { SimpleGrid, Image, Link } from '@chakra-ui/react';
 import { Link as RouterLink } from "react-router-dom";
 
-export default function Home () {
+export default function Home ({headerDisabled, setHeaderDisabled}) {
     const apps = [
         { path: "/llm", image: "Chat.jpg" },
-        { path: "/wizardllm", image: "avatars/wizard/Base.png" },
         { path: "/llm", image: "Chat.jpg" },
         { path: "/llm", image: "Chat.jpg" },
     ];
     return (
-  <SimpleGrid minChildWidth="20vw" spacing="20px" >
+  <SimpleGrid minChildWidth="20vw" spacing="75px" pt="5vh">
     {apps.map((app, index) => (
       <Link key={index} as={RouterLink} to={app.path}>
-        <Image bg="rgba(0,0,0,.25)" borderRadius="25px" border="1px solid white" w="100%" src={app.image}/>
+        <Image bg="rgba(0,0,0,.25)" borderRadius="25px" border="1px solid white" maxW="50vh" w="100%" src={app.image}/>
       </Link>
     ))}
   </SimpleGrid>

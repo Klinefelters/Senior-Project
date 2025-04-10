@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "senior-sage",
+    "productName": "senior-project",
     "version": "0.0.0"
   },
   "tauri": {
@@ -19,8 +19,8 @@
     },
     "windows": [
       {
-        "title": "senior-sage",
-        "width": 800,
+        "title": "senior-project",
+        "width": 1024,
         "height": 600
       }
     ],
@@ -30,7 +30,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.sage.senior",
+      "identifier": "com.project.senior",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",

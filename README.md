@@ -167,8 +167,6 @@ JStoner -Stonerj@etown.edu
 
 joshschmitt35 - schmittj@etown.edu
 
-PolarBareBear13 - conderodriguezj@etown.edu
-
 Project Link: [https://github.com/klinefelters/Senior-Project](https://github.com/klinefelters/Senior-Project)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

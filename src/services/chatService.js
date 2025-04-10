@@ -18,5 +18,5 @@ export async function handleChat(messages, setMessages, setState) {
 
     setMessages([...messages, fullResponse.message ]);
 
-    SpeechSynthesisService.speak(fullResponse.message.content, setState)
+    await SpeechSynthesisService.speak(fullResponse.message.content, setState)
 }
