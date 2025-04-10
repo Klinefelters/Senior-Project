@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HStack, Center} from '@chakra-ui/react';
+import { HStack, Center, Spinner} from '@chakra-ui/react';
 import { handleChat } from '../services/chatService';
 import Card  from '../components/cards/Card';
 import InputCard from '../components/cards/InputCard';
@@ -49,8 +49,18 @@ export default function Llm() {
     
   }, []);
     return (
-      <Center flexDirection="column">
-      <HStack w="85vw" alignContent="left" spacing="2.5vw">
+      <Center flexDirection="column" minHeight="50vh">
+      {loading ? (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} // Start with opacity 0 and slide down
+          animate={{ opacity: 1, y: 0 }}  // Fade in and slide to position
+          exit={{ opacity: 0, y: -20 }}   // Fade out and slide up
+          transition={{ duration: 0.3 }}  // Smooth transition
+        >
+          <Spinner size="xl" thickness="4px" speed="0.65s" color="blue.500" />
+        </motion.div>
+      ) : (
+      <HStack w="80vw" alignContent="left" spacing="2.5vw">
         {messages
           .slice(-1 * (waiting ? 1 : 2)) // Show only the last message or last two if no input card
           .map((message, index) => (
@@ -85,6 +95,7 @@ export default function Llm() {
           </motion.div>
         ) : null}
       </HStack>
-    </Center>
+    )}
+  </Center>
   );
 }

@@ -17,7 +17,7 @@ export default function App() {
   return (
     <Flex flexDirection="column" minHeight="100vh">
       <Header />
-      <Flex flex="1" direction="column" p="15vh" pb="40px">
+      <Flex flex="1" direction="column" p="70px" pb="40px">
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/llm" element={<Llm/>} />
