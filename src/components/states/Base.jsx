@@ -13,7 +13,7 @@ export default function Base({ onSubmit, setText, value, onChange }) {
         >
             <Input 
                 type="text" 
-                w="25vw" 
+                w="100%" 
                 ml="1vw" 
                 value={value} 
                 onChange={onChange}
