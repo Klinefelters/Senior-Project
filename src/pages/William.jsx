@@ -64,7 +64,7 @@ export default function William({headerDisabled, setHeaderDisabled}) {
               transition={{ duration: 0.3 }}
           >
             <Avatar 
-              base="avatars/ryan/base.png" 
+              base="avatars/william/base.png" 
               state={state}
             />
           </motion.div>
