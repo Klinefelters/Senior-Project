@@ -8,7 +8,7 @@ export default function Base({ onSubmit, setText, value, onChange }) {
             borderRadius="25px"
             border="1px solid white"
             h="65vh"
-            w="25vw"
+            w="50vw"
             as="form" onSubmit={onSubmit}
         >
             <MicrophoneButton setText={setText} />

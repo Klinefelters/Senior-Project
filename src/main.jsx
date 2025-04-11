@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import { BrowserRouter as Router } from "react-router-dom";
 import {ChakraProvider, extendTheme} from '@chakra-ui/react';
+import '@fontsource-variable/pixelify-sans';
 
 const colors = {
   brand: {
@@ -17,8 +18,8 @@ const colors = {
 
 
 const fonts = {
-  body: 'Tahoma',
-  heading: 'Courier New'
+  body: `'Pixelify Sans Variable', system-ui`,
+  heading: `'Pixelify Sans Variable', system-ui`
 }
 
 const theme = extendTheme({

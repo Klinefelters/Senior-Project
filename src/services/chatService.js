@@ -2,21 +2,27 @@
 import OllamaService from './ollamaService';
 import SpeechSynthesisService from './speechSynthesisService';
 
-export async function handleChat(messages, setMessages, setState) {
+import.meta.env
+
+export async function handleChat(messages, setMessages, setState, piperModel="amy-medium") {
+    const OLLAMA_MODEL = import.meta.env.VITE_OLLAMA_MODEL
+
+
     if (setState) {
         setState('thinking');
     }
 
-    
-    
-    const lastMessageIndex = messages.length - 1;
-    const lastMessage = messages[lastMessageIndex];
-
-    let fullResponse = await OllamaService.generateResponse('phi3', messages);
+    let fullResponse = await OllamaService.generateResponse(OLLAMA_MODEL, messages);
 
     console.log(fullResponse.message);
 
     setMessages([...messages, fullResponse.message ]);
+    await SpeechSynthesisService.speak(fullResponse.message.content, piperModel, setState)
+}
 
-    await SpeechSynthesisService.speak(fullResponse.message.content, setState)
+export async function introduce(messages, setState, piperModel="amy-medium") {
+    if (setState) {
+        setState('thinking');
+    }
+    await SpeechSynthesisService.speak(messages[1].content, piperModel, setState)
 }

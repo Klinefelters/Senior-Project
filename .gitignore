@@ -3,6 +3,8 @@
 
 **/libvosk.so 
 
+.env
+
 # Logs
 logs
 *.log

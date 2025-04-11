@@ -14,7 +14,7 @@ export default function Header({ disable }) {
                 style={{ pointerEvents: disable ? 'none' : 'auto' }} // Prevent clicking when disabled
             >
                 <Flex alignItems="center" color={disable ? "gray.500" : "white"}>
-                    <Icon as={FaHome} h={size} w={size} mr="2" />
+                    <Icon as={FaHome} h={size} w={size} mr="15px" ml="15px" />
                     <Text>Home</Text>
                 </Flex>
             </Link>

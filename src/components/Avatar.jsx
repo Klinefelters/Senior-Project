@@ -1,26 +1,21 @@
-import { useState, useEffect } from 'react';
 import { Image } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 
-export default function Avatar({ base, listening, speaking, thinking, state }) {
-    const [currentImage, setCurrentImage] = useState(base);
-
-    useEffect(() => {
-        if (state === 'speaking') {
-            const interval = setInterval(() => {
-                setCurrentImage(prevImage => prevImage === base ? speaking : base);
-            }, 250);
-            return () => clearInterval(interval);
-        } else if (state === 'listening') {
-            setCurrentImage(listening);
-        } else if (state === 'thinking') {
-            setCurrentImage(thinking);
-        } else {
-            setCurrentImage(base);
-        }
-    }, [state]);
-
-    
+export default function Avatar({ base, state }) {
     return (
-        <Image src={currentImage} w="20vw" h="20vw"/>
-    )
+        <motion.div
+            animate={
+                state === 'speaking'
+                    ? { y: [-5, 5, -5] } // Shake animation
+                    : { y: 0 } // Reset position when not speaking
+            }
+            transition={
+                state === 'speaking'
+                    ? { duration: 0.25, repeat: Infinity, ease: 'easeInOut' }
+                    : { duration: 0.1 }
+            }
+        >
+            <Image src={base} w="30vw" h="30vw" />
+        </motion.div>
+    );
 }

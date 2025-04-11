@@ -76,6 +76,14 @@ To get a local copy up and running follow these simple example steps.
    git clone https://github.com/Klinefelters/Senior-Project
    ```
 
+2. Add a .env file to the root of the cloned repository
+  ```sh
+  OPERATING_SYSTEM=Windows 
+  #OPERATING_SYSTEM=Linux 
+
+  PATH_TO_PIPER_MODELS=D:/piper
+  ```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Development Setup -->
