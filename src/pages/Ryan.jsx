@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Center, Flex } from '@chakra-ui/react';
-import { handleChat } from '../services/chatService';
+import { handleChat, introduce } from '../services/chatService';
 import {listen} from '@tauri-apps/api/event'
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -16,11 +16,13 @@ export default function Ryan({headerDisabled, setHeaderDisabled}) {
   const [state, setState] = useState('thinking');
   // State can be 'thinking', 'speaking', 'listening', or 'base'
 
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
-  const voice = "ryan-high";
+  const prompt = { role: 'system', content: "You are Ryan, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going. Introduce yourself to the resident and ask for their name. Keep it short." };
+  const introduction = { role: 'assistant', content: "Hi, I am Ryan. What's your name?" };
   
 
+  const [messages, setMessages] = useState([prompt, introduction]);
+  const [input, setInput] = useState('');
+  const voice = "ryan-high";
   
   listen('transcription', (event) => {
     setInput(event.payload)
@@ -29,9 +31,7 @@ export default function Ryan({headerDisabled, setHeaderDisabled}) {
   useEffect(() => {
     const fetchIntroduction = async () => {
       setHeaderDisabled(true);
-      const introduction = { role: 'system', content: "You are Ryan, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going. Introduce yourself to the resident and ask for their name. Keep it short." };
-      const newMessages = ([introduction]);
-      await handleChat(newMessages, setMessages, setState, voice);
+      await introduce(messages, setState, voice);
       setHeaderDisabled(false);
     };
     fetchIntroduction();
