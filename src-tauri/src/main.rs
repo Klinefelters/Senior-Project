@@ -13,7 +13,6 @@ use std::env;
 
 mod vosk;
 
-
 #[tauri::command]
 async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
     let audio_input_device = cpal::default_host()
@@ -84,7 +83,6 @@ async fn speak_text(input_text: String, model: String) -> String {
     };
 
     println!("Command executed: {}", &command);
-
     let output1 = Command::new("sh")
         .arg("-c")
         .arg(command)
@@ -92,7 +90,6 @@ async fn speak_text(input_text: String, model: String) -> String {
         .expect("Failed to execute command");
     
     println!("Output: {}", String::from_utf8_lossy(&output1.stdout));
-
     return "done".to_string();
 }
 
@@ -105,7 +102,7 @@ fn main() {
     if env::var("PATH_TO_PIPER_MODELS").is_err() {
         panic!("PATH_TO_PIPER_MODELS environment variable is not set. Please set it to be the path to the folder containing the piper models.");
     }
-
+  
     let audio_input_device = cpal::default_host()
         .default_input_device()
         .expect("No input device connected");

@@ -7,6 +7,7 @@ import.meta.env
 export async function handleChat(messages, setMessages, setState, piperModel="amy-medium") {
     const OLLAMA_MODEL = import.meta.env.VITE_OLLAMA_MODEL
 
+
     if (setState) {
         setState('thinking');
     }
@@ -16,7 +17,6 @@ export async function handleChat(messages, setMessages, setState, piperModel="am
     console.log(fullResponse.message);
 
     setMessages([...messages, fullResponse.message ]);
-
     await SpeechSynthesisService.speak(fullResponse.message.content, piperModel, setState)
 }
 
