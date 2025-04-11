@@ -19,3 +19,10 @@ export async function handleChat(messages, setMessages, setState, piperModel="am
 
     await SpeechSynthesisService.speak(fullResponse.message.content, piperModel, setState)
 }
+
+export async function introduce(messages, setState, piperModel="amy-medium") {
+    if (setState) {
+        setState('thinking');
+    }
+    await SpeechSynthesisService.speak(messages[1].content, piperModel, setState)
+}
