@@ -82,6 +82,8 @@ To get a local copy up and running follow these simple example steps.
   #OPERATING_SYSTEM=Linux 
 
   PATH_TO_PIPER_MODELS=D:/piper
+
+  VITE_OLLAMA_MODEL=phi3
   ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
