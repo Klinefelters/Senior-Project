@@ -1,7 +1,8 @@
 use tauri::Manager;
-use std::thread::sleep;
-use std::time::Duration;
 use std::process::Command;
+use std::sync::mpsc::{self, Sender, Receiver};
+// use std::thread::current;
+use std::time::Duration;
 
 use cpal::{
     traits::{DeviceTrait, HostTrait, StreamTrait},
@@ -30,28 +31,33 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
     };
     println!("Starting transcription");
 
+    let app_handle_clone = app_handle.clone();
+
+    // Create a channel for communication
+    let (tx, rx): (Sender<String>, Receiver<String>) = mpsc::channel();
+
     let stream = match config.sample_format() {
         SampleFormat::I8 => audio_input_device.build_input_stream(
             &config.into(),
-            move |data: &[i8], _| recognize(app_handle.clone(), data, channels),
+            move |data: &[i8], _| recognize(app_handle_clone.clone(), &tx, data, channels),
             err_fn,
             None,
         ),
         SampleFormat::I16 => audio_input_device.build_input_stream(
             &config.into(),
-            move |data: &[i16], _| recognize(app_handle.clone(), data, channels),
+            move |data: &[i16], _| recognize(app_handle_clone.clone(), &tx, data, channels),
             err_fn,
             None,
         ),
         SampleFormat::I32 => audio_input_device.build_input_stream(
             &config.into(),
-            move |data: &[i32], _| recognize(app_handle.clone(), data, channels),
+            move |data: &[i32], _| recognize(app_handle_clone.clone(), &tx, data, channels),
             err_fn,
             None,
         ),
         SampleFormat::F32 => audio_input_device.build_input_stream(
             &config.into(),
-            move |data: &[f32], _| recognize(app_handle.clone(), data, channels),
+            move |data: &[f32], _| recognize(app_handle_clone.clone(), &tx, data, channels),
             err_fn,
             None,
         ),
@@ -60,10 +66,19 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
     .expect("Could not build stream");
 
     stream.play().expect("Could not play stream");
-    sleep(Duration::from_secs(5));
+
+    let mut last_transcription= String::new();
+    loop {
+        if let Ok(current_transcription) = rx.recv_timeout(Duration::from_millis(500)) {
+            if !last_transcription.is_empty() && current_transcription.is_empty() {
+                break;
+            }
+            last_transcription = current_transcription.clone();
+        }
+    }
+
     drop(stream);
-    let result = "Transcription stopped".to_string();
-    result
+    last_transcription
 }
 
 #[tauri::command]
@@ -121,6 +136,7 @@ fn main() {
 
 fn recognize<T: Sample + ToSample<i16>>(
     app_handle: tauri::AppHandle,
+    tx: &Sender<String>,
     data: &[T],
     channels: ChannelCount,
 )  {
@@ -132,9 +148,10 @@ fn recognize<T: Sample + ToSample<i16>>(
     };
     let recognized = vosk::recognize(&data, true);
     if let Some(text) = recognized {
+        tx.send(text.clone()).expect("Failed to send transcription");
         if text.is_empty() {
             return;
-        }
+        }   
         app_handle.emit_all("transcription", text.clone()).expect("failed to emit transcription");
         println!("Recognized: {}", text);
     }
