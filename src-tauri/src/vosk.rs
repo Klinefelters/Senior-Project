@@ -5,6 +5,8 @@ use vosk::{DecodingState, Model, Recognizer};
 use std::sync::Mutex;
 static MODEL: OnceCell<Model> = OnceCell::new();
 static RECOGNIZER: OnceCell<Mutex<Recognizer>> = OnceCell::new();
+
+
 pub fn init_vosk(sample_rate: f32) {
     if !RECOGNIZER.get().is_none() {return;} // already initialized
     let model = Model::new("./model").unwrap();
@@ -15,6 +17,8 @@ pub fn init_vosk(sample_rate: f32) {
     let _ = MODEL.set(model);
     let _ = RECOGNIZER.set(Mutex::new(recognizer));
 }
+
+
 pub fn recognize(data: &[i16], include_partial: bool) -> Option<String> {
     let state = RECOGNIZER.get().unwrap().lock().unwrap().accept_waveform(data);
     match state {

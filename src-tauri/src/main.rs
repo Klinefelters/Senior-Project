@@ -1,8 +1,9 @@
 use tauri::Manager;
-use std::process::Command;
-use std::sync::mpsc::{self, Sender, Receiver};
-// use std::thread::current;
-use std::time::Duration;
+use std::{
+    process::Command,
+    sync::mpsc::{self, Sender, Receiver},
+    time::Duration
+};
 
 use cpal::{
     traits::{DeviceTrait, HostTrait, StreamTrait},
