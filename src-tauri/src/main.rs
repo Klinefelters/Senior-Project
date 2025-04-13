@@ -1,17 +1,21 @@
 use tauri::Manager;
+
 use std::{
     process::Command,
     sync::mpsc::{self, Sender, Receiver},
     time::Duration
 };
 
+// environment variable libraries
+use dotenv::dotenv;
+use std::env;
+
+// Audio processing libraries
 use cpal::{
     traits::{DeviceTrait, HostTrait, StreamTrait},
     ChannelCount, SampleFormat,
 };
 use dasp::{sample::ToSample, Sample};
-use dotenv::dotenv;
-use std::env;
 
 mod vosk;
 
