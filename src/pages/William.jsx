@@ -16,8 +16,8 @@ export default function William({headerDisabled, setHeaderDisabled}) {
   const [state, setState] = useState('thinking');
   // State can be 'thinking', 'speaking', 'listening', or 'base'
   
-  const prompt = { role: 'system', content: "You are William, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going. Introduce yourself to the resident and ask for their name. Keep it short." };
-  const introduction = { role: 'assistant', content: "Hi, I am William. What's your name?" };
+  const prompt = { role: 'system', content: "You are William, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the conversation going. Introduce yourself to the resident and ask for their name. Keep it short." };
+  const introduction = { role: 'assistant', content: "Hi there, my name is William. I am a reporter here at Juniper Village. I am spending some time getting to know the wonderful people who live here so I can share their stories with their families. Would you mind telling me your name?" };
 
   const [messages, setMessages] = useState([prompt, introduction]);
   const [input, setInput] = useState('');

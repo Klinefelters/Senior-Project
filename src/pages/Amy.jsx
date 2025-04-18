@@ -16,8 +16,8 @@ export default function Amy({headerDisabled, setHeaderDisabled}) {
   const [state, setState] = useState('thinking');
   // State can be 'thinking', 'speaking', 'listening', or 'base'
 
-  const prompt = { role: 'system', content: "You are Amy, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the converstation going. Introduce yourself to the resident and ask for their name. Keep it short." };
-  const introduction = { role: 'assistant', content: "Hi, I am Amy. What's your name?" };
+  const prompt = { role: 'system', content: "You are Amy, a reporter that interviews residents at an assisted living facility called Juniper Village. Your goal is to share the residents stories with their loved ones, so keep the conversation going. Introduce yourself to the resident and ask for their name. Keep it short." };
+  const introduction = { role: 'assistant', content: "Hi there, I am Amy. I am a reporter here at Juniper Village, and I get to do something really special: I help share your stories with your loved ones. I would love to get to know you better. Can I ask your name?" };
 
   const [messages, setMessages] = useState([prompt, introduction]);
   const [input, setInput] = useState('');
