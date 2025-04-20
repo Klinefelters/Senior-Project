@@ -2954,6 +2954,7 @@ dependencies = [
  "dotenv",
  "inputbot",
  "once_cell",
+ "regex",
  "serde",
  "serde_json",
  "tauri",
