@@ -21,6 +21,9 @@ use dasp::{sample::ToSample, Sample};
 use regex::Regex;
 use std::collections::HashMap;
 
+// File system libraries
+use std::fs;
+
 mod vosk;
 
 #[tauri::command]
@@ -95,18 +98,28 @@ async fn speak_text(input_text: String, model: String) -> String {
     let processed_text = remove_cont_and_abb(&input_text).await;
     let sanitized_text = processed_text.replace('\n', " ").replace('\'', "");
     
+    let temp_dir = std::env::temp_dir();
+    let output_path = temp_dir.join("output.wav");
+    let output_fixed_path = temp_dir.join("output_fixed.wav");
 
     let command = if env::var("OPERATING_SYSTEM").unwrap() == "Windows" {
         format!(
             "echo '{}' |   piper -m {}/en_US-{}.onnx --output-raw |   ffplay -f s16le -ar 22050 -autoexit -", 
             sanitized_text, env::var("PATH_TO_PIPER_MODELS").unwrap(), model
+            
         )
     } else {
         format!(
-            "echo '{}' | piper -m {}/en_US-{}.onnx --output-file output.wav && \
-            sox output.wav -r 44100 -c 2 output_fixed.wav && \
-            aplay -D plughw:CARD=rockchipes8388,DEV=0 output_fixed.wav", 
-            sanitized_text, env::var("PATH_TO_PIPER_MODELS").unwrap(), model
+            "echo '{}' | piper -m {}/en_US-{}.onnx --output-file '{}' && \
+            sox '{}' -r 44100 -c 2 '{}' && \
+            aplay -D plughw:CARD=rockchipes8388,DEV=0 '{}'",
+            sanitized_text,
+            env::var("PATH_TO_PIPER_MODELS").unwrap(),
+            model,
+            output_path.display(),
+            output_path.display(),
+            output_fixed_path.display(),
+            output_fixed_path.display()
         )
     };
 
@@ -118,6 +131,13 @@ async fn speak_text(input_text: String, model: String) -> String {
         .expect("Failed to execute command");
     
     println!("Output: {}", String::from_utf8_lossy(&output1.stdout));
+
+    if let Err(e) = fs::remove_file(&output_path) {
+        eprintln!("Failed to delete {}: {}", output_path.display(), e);
+    }
+    if let Err(e) = fs::remove_file(&output_fixed_path) {
+        eprintln!("Failed to delete {}: {}", output_fixed_path.display(), e);
+    }
     return "done".to_string();
 }
 async fn remove_cont_and_abb(input: &str) -> String {
