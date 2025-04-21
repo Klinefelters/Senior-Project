@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { IconButton } from '@chakra-ui/react';
+import { useState } from 'react';
+import { IconButton, Flex, Text } from '@chakra-ui/react';
 import { FaMicrophone } from "react-icons/fa";
 
 import ConfirmationModal from './ConfirmationModal';
@@ -45,16 +45,24 @@ export default function MicrophoneButton({ text, setText, submit, setAvatarState
                 text={text}
                 setText={setText}
             />
-            <IconButton
-                icon={<FaMicrophone size={mic_size} />}
-                h={size}
-                w={size}
-                m={borderRadius}
-                borderRadius={borderRadius}
-                onClick={toggleMicrophone}
-                isLoading={!ready}
-                isDisabled={!ready}
-            />
+            <Flex direction="column" justifyContent="center" alignItems="center" h="100%" w="100%" fontSize={"2.5vw"} >
+                {ready ? (
+                    <Text>Click to Start Speaking</Text>
+                ) : (
+                    <Text>Speak a Sentence into the Microphone</Text>
+                )}
+
+                <IconButton
+                    icon={<FaMicrophone size={mic_size} />}
+                    h={size}
+                    w={size}
+                    m={borderRadius}
+                    borderRadius={borderRadius}
+                    onClick={toggleMicrophone}
+                    isLoading={!ready}
+                    isDisabled={!ready}
+                />
+            </Flex>
         </>
     );
 }

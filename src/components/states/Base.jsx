@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Input } from '@chakra-ui/react';
+import { Box, Input } from '@chakra-ui/react';
 import MicrophoneButton from '../MicrophoneButton';
 
 export default function Base({ onSubmit, setText, value, onChange }) {
@@ -19,13 +19,10 @@ export default function Base({ onSubmit, setText, value, onChange }) {
                 onChange={onChange}
                 variant="flushed"
                 fontSize={"2vw"}
-                opacity={(value.length > 0) ? "1" : ".01"}
+                opacity={(value.length > 1) ? "1" : ".01"}
             />
 
-            <Flex direction="column" justifyContent="center" alignItems="center" h="100%" w="100%" fontSize={"2.5vw"} >
-                <Text>Start Recording</Text>
-                <MicrophoneButton text={value} setText={setText} submit={onSubmit} />
-            </Flex>
+            <MicrophoneButton text={value} setText={setText} submit={onSubmit} />
 
         </Box>
     );
