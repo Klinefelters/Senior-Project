@@ -17,6 +17,13 @@ use cpal::{
 };
 use dasp::{sample::ToSample, Sample};
 
+// Text cleaning 
+use regex::Regex;
+use std::collections::HashMap;
+
+// File system libraries
+use std::fs;
+
 mod vosk;
 
 #[tauri::command]
@@ -88,17 +95,31 @@ async fn listen_and_transcribe(app_handle: tauri::AppHandle) -> String {
 
 #[tauri::command]
 async fn speak_text(input_text: String, model: String) -> String {
-    let sanitized_text = input_text.replace('\n', " ").replace('\'', "");
+    let processed_text = remove_cont_and_abb(&input_text).await;
+    let sanitized_text = processed_text.replace('\n', " ").replace('\'', "");
+    
+    let temp_dir = std::env::temp_dir();
+    let output_path = temp_dir.join("output.wav");
+    let output_fixed_path = temp_dir.join("output_fixed.wav");
 
     let command = if env::var("OPERATING_SYSTEM").unwrap() == "Windows" {
         format!(
             "echo '{}' |   piper -m {}/en_US-{}.onnx --output-raw |   ffplay -f s16le -ar 22050 -autoexit -", 
             sanitized_text, env::var("PATH_TO_PIPER_MODELS").unwrap(), model
+            
         )
     } else {
         format!(
-            "echo '{}' |   piper -m {}/en_US-{}.onnx --output-raw |   aplay -r 22050 -f S16_LE -t raw -", 
-            sanitized_text, env::var("PATH_TO_PIPER_MODELS").unwrap(), model
+            "echo '{}' | piper -m {}/en_US-{}.onnx --output-file '{}' && \
+            sox '{}' -r 44100 -c 2 '{}' && \
+            aplay -D plughw:CARD=rockchipes8388,DEV=0 '{}'",
+            sanitized_text,
+            env::var("PATH_TO_PIPER_MODELS").unwrap(),
+            model,
+            output_path.display(),
+            output_path.display(),
+            output_fixed_path.display(),
+            output_fixed_path.display()
         )
     };
 
@@ -110,7 +131,70 @@ async fn speak_text(input_text: String, model: String) -> String {
         .expect("Failed to execute command");
     
     println!("Output: {}", String::from_utf8_lossy(&output1.stdout));
+
+    if let Err(e) = fs::remove_file(&output_path) {
+        eprintln!("Failed to delete {}: {}", output_path.display(), e);
+    }
+    if let Err(e) = fs::remove_file(&output_fixed_path) {
+        eprintln!("Failed to delete {}: {}", output_fixed_path.display(), e);
+    }
     return "done".to_string();
+}
+async fn remove_cont_and_abb(input: &str) -> String {
+    let mut contractions = HashMap::new();
+
+    // Common English contractions
+    contractions.insert(r"\bI'm\b", "I am");
+    contractions.insert(r"\byou're\b", "you are");
+    contractions.insert(r"\bwe're\b", "we are");
+    contractions.insert(r"\bthey're\b", "they are");
+    contractions.insert(r"\bcan't\b", "cannot");
+    contractions.insert(r"\bdon't\b", "do not");
+    contractions.insert(r"\bdoesn't\b", "doesnt");
+    contractions.insert(r"\bwon't\b", "will not");
+    contractions.insert(r"\bwouldn't\b", "would not");
+    contractions.insert(r"\bshouldn't\b", "shouldnt");
+    contractions.insert(r"\bcouldn't\b", "could not");
+    contractions.insert(r"\bhaven't\b", "have not");
+    contractions.insert(r"\bhasn't\b", "has not");
+    contractions.insert(r"\bhadn't\b", "had not");
+    contractions.insert(r"\bI'll\b", "I will");
+    contractions.insert(r"\byou'll\b", "you will");
+    contractions.insert(r"\bwe'll\b", "we will");
+    contractions.insert(r"\bthey'll\b", "they will");
+    contractions.insert(r"\bI've\b", "I have");
+    contractions.insert(r"\byou've\b", "you have");
+    contractions.insert(r"\bwe've\b", "we have");
+    contractions.insert(r"\bthey've\b", "they have");
+    contractions.insert(r"\bit's\b", "it is");
+    contractions.insert(r"\bthat's\b", "that is");
+    contractions.insert(r"\bwhat's\b", "what is");
+    contractions.insert(r"\bthere's\b", "there is");
+    contractions.insert(r"\bwho's\b", "who is");
+
+    // Abbreviations
+    contractions.insert(r"\bDr.\s?", "Doctor ");
+    contractions.insert(r"\bMr.\s?", "Mister ");
+    contractions.insert(r"\bMrs.\s?", "Missus ");
+    contractions.insert(r"\bMs.\s?", "Miz ");
+    contractions.insert(r"\bSt.\s?", "Street ");
+    contractions.insert(r"\bAve.\s?", "Avenue ");
+    contractions.insert(r"\bJr.\s?", "Junior ");
+    contractions.insert(r"\bSr.\s?", "Senior ");
+    contractions.insert(r"\bInc.\s?", "Incorporated ");
+    contractions.insert(r"\be.g.\s?", "for example ");
+    contractions.insert(r"\bi.e.\s?", "that is ");
+    contractions.insert(r"\betc.\s?", "et cetera ");
+    contractions.insert(r"\bvs.\s?", "versus ");
+    contractions.insert(r"\bNo.\s?", "Number ");
+
+    let mut output = input.to_string();
+    for (pattern, replacement) in contractions {
+        let re = Regex::new(pattern).unwrap();
+        output = re.replace_all(&output, replacement).to_string();
+    }
+
+    output
 }
 
 fn main() {
