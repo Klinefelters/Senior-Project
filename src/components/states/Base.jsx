@@ -24,7 +24,7 @@ export default function Base({ onSubmit, setText, value, onChange }) {
 
             <Flex direction="column" justifyContent="center" alignItems="center" h="100%" w="100%" fontSize={"2.5vw"} >
                 <Text>Start Recording</Text>
-                <MicrophoneButton setText={setText} />
+                <MicrophoneButton text={value} setText={setText} submit={onSubmit} />
             </Flex>
 
         </Box>
